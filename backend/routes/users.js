@@ -6,4 +6,7 @@ const authenticationService = require('../services/authentication'); // JWT auth
 //Protected route - List all users
 router.get('/', userController.getUsers);
 
+//view your profile
+router.get('/:id', userController.getUser);
+
 module.exports = router;

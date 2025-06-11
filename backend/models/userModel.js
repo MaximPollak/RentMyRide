@@ -12,6 +12,17 @@ const getUsers = () => {
     });
 };
 
+const getUser = (id) => {
+    const sql = 'SELECT user_id, username, email FROM CCL2_users WHERE user_id = ?';
+    return new Promise((resolve, reject) => {
+        db.query(sql, [id], (err, results) => {
+            if (err) return reject(err);
+            if (results.length === 0) return resolve(null);
+            resolve(results[0]); // Return single user
+        });
+    });
+};
+
 /**
  * Adds a new user to the database.
  * Password is hashed before being saved.
@@ -30,5 +41,6 @@ const registerUser = async ({ username, email, password = 'user' }) => {
 
 module.exports = {
     getUsers,
+    getUser,
     registerUser,
 };
