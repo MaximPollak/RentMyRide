@@ -48,7 +48,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     console.log(req.body);
     res.send('received a POST request');
-});
+})
 
 
 // --------------------------------------

@@ -38,7 +38,7 @@ const addCar = (carData) => {
         carData.category,
         carData.info,
         carData.price_per_day,
-        carData.image_url, // ← was 'picture' before — this is the fix
+        carData.image_url,
         carData.available
     ]
 

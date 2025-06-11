@@ -1,5 +1,14 @@
 const userModel = require('../models/userModel');
 
+const getUsers = (req, res) => {
+    userModel.getUsers()
+        .then(users => res.status(200).json(users))
+        .catch(err => {
+            console.error('Failed to fetch users:', err);
+            res.status(500).json({ error: 'Could not retrieve users' });
+        });
+};
+
 /**
  * Controller for registering a new user.
  * Validates input and calls the model to save to DB.
@@ -13,7 +22,7 @@ const registerUser = async (req, res) => {
     }
 
     try {
-        const user = await userModel.addUser({ username, email, password });
+        const user = await userModel.registerUser({ username, email, password });
         res.status(201).json({ message: 'User registered', user });
     } catch (err) {
         console.error('Registration failed:', err);
@@ -22,5 +31,6 @@ const registerUser = async (req, res) => {
 };
 
 module.exports = {
+    getUsers,
     registerUser
 };
