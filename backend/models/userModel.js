@@ -23,6 +23,17 @@ const getUser = (id) => {
     });
 };
 
+const updateUser = (id, { username, email, password }) => {
+    const sql = 'UPDATE CCL2_users SET username = ?, email = ?, password = ? WHERE user_id = ?';
+
+    return new Promise((resolve, reject) => {
+        db.query(sql, [username, email, password, id], (err, result) => {
+            if (err) return reject(err);
+            resolve({ message: 'User updated', id });
+        });
+    });
+};
+
 /**
  * Adds a new user to the database.
  * Password is hashed before being saved.
@@ -39,8 +50,21 @@ const registerUser = async ({ username, email, password = 'user' }) => {
     });
 };
 
+const deleteUser = (id) => {
+    const sql = 'DELETE FROM CCL2_users WHERE user_id = ?';
+
+    return new Promise((resolve, reject) => {
+        db.query(sql, [id], (err, result) => {
+            if (err) return reject(err);
+            resolve({ message: 'User deleted', id });
+        });
+    });
+};
+
 module.exports = {
     getUsers,
     getUser,
+    updateUser,
     registerUser,
+    deleteUser
 };

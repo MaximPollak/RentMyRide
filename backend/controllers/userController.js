@@ -25,6 +25,24 @@ const getUser = (req, res) => {
         });
 };
 
+const updateUser = async (req, res) => {
+    const userId = req.params.id;
+    const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const result = await userModel.updateUser(userId, { username, email, password: hashedPassword });
+        res.status(200).json(result);
+    } catch (err) {
+        console.error('Error updating user:', err);
+        res.status(500).json({ error: 'Update failed' });
+    }
+};
+
 /**
  * Controller for registering a new user.
  * Validates input and calls the model to save to DB.
@@ -46,8 +64,21 @@ const registerUser = async (req, res) => {
     }
 };
 
+const deleteUser = (req, res) => {
+    const userId = req.params.id;
+
+    userModel.deleteUser(userId)
+        .then(result => res.status(200).json(result))
+        .catch(err => {
+            console.error('Error deleting user:', err);
+            res.status(500).json({ error: 'Delete failed' });
+        });
+};
+
 module.exports = {
     getUsers,
     getUser,
+    updateUser,
     registerUser,
+    deleteUser
 };

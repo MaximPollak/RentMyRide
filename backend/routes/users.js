@@ -9,4 +9,10 @@ router.get('/', userController.getUsers);
 //view your profile
 router.get('/:id', userController.getUser);
 
+//updating an user
+router.put('/:id', userController.updateUser);
+
+//deleting an user
+router.delete('/:id', userController.deleteUser)
+
 module.exports = router;
