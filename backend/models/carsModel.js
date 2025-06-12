@@ -78,16 +78,15 @@ const editCar = (id, carData) => {
         carData.model,
         carData.category,
         carData.info,
-        carData.price_per_day,
+        parseInt(carData.price_per_day),
         carData.image_url,
-        carData.available,
-        id
+        parseInt(carData.available)
     ]
 
     return new Promise((resolve, reject) => {
         db.query(sql, values, (err, result) => {
             if (err) return reject(err)
-            resolve({ message: 'Car updated', id })
+            resolve({ message: 'Car added', id: result.insertId });
         })
     })
 }

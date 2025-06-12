@@ -30,15 +30,30 @@ const getCarById = (req, res, next) => {
 //----ADDING CAR-------
 //---------------------
 const addCar = (req, res, next) => {
-    const carData = req.body
+    // Check if file is present
+    if (!req.file) {
+        return res.status(400).json({ error: 'Image is required' });
+    }
+    // Build image path to save in DB
+    const imageUrl = `/uploads/${req.file.filename}`;
+
+    // Extract car data and add image_url
+    const carData = {
+        ...req.body,
+        image_url: imageUrl
+    };
+
+    console.log('🚗 carData to insert:', carData);
+    console.log('Received file:', req.file);
+    console.log('Received body:', req.body);
 
     carModel.addCar(carData)
         .then(newCar => res.status(201).json(newCar))
         .catch(err => {
-            console.error('Error adding car:', err)
-            res.status(500).json({ error: 'Failed to add car' })
-        })
-}
+            console.error('Error adding car:', err);
+            res.status(500).json({ error: 'Failed to add car' });
+        });
+};
 
 //---------------------
 //----EDIT CAR-----

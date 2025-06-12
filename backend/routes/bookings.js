@@ -9,7 +9,6 @@ router.use(authService.authenticateJWT);
 // POST /bookings → create a new booking
 router.post('/', bookingController.createBooking);
 
-// POST /bookings → create a new booking
 router.delete('/:id', authService.authenticateJWT, bookingController.deleteBooking);
 
 // GET /bookings/me → get current user's bookings

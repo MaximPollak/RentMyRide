@@ -1,29 +1,36 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 const port = 3000;
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+require('dotenv').config();
 
-require('dotenv').config()
+// Connect to database
+const db = require('./services/database.js');
 
-//connecting database
-const db = require("./services/database.js")
+// Middleware
+app.use(cors());
+app.use(cookieParser());
 
-app.use(express.json())
+// Serve uploaded files statically
+app.use('/uploads', express.static('public/uploads'));
 
-const indexRouter = require('./routes/index')
-const carRoutes = require('./routes/cars')
-const userRoutes = require('./routes/users')
+// ❗ Do NOT use express.json() before file-upload routes
+// Load routers BEFORE express.json if they handle file uploads
+const carRoutes = require('./routes/cars'); // has multer
+app.use('/cars', carRoutes);
+
+// Safe to use now
+app.use(express.json());
+
+// Other routers (that don’t do file uploads)
+const indexRouter = require('./routes/index');
+const userRoutes = require('./routes/users');
 const bookingRoutes = require('./routes/bookings');
 
-const cors = require('cors')
-app.use(cors())
-
-app.use('/', indexRouter)
-app.use('/cars', carRoutes)
-app.use('/users', userRoutes)
+app.use('/', indexRouter);
+app.use('/users', userRoutes);
 app.use('/bookings', bookingRoutes);
-
-// Routes would go here later
-
 
 app.listen(port, () => {
     console.log(`Example app listening at http://127.0.0.1:${port}`);
