@@ -23,7 +23,7 @@ async function authenticateUser({ email, password }, users, res) {
     if (user && await bcrypt.compare(password, user.password)) {
         console.log('Signed JWT payload:', { id: user.user_id, name: user.username });
         const accessToken = jwt.sign(
-            { id: user.user_id, name: user.username },
+            { id: user.user_id, name: user.username, role: user.role },
             ACCESS_TOKEN_SECRET,
             { expiresIn: '1h' }
         );
@@ -63,14 +63,16 @@ function authenticateJWT(req, res, next) {
     });
 }
 
-/**
- * Compare plain text password with hashed version
- */
-async function checkPassword(password, hash) {
-    return await bcrypt.compare(password, hash);
+function isAdmin(req, res, next) {
+    if (req.user && req.user.role === 'admin') {
+        return next(); // ✅ Proceed
+    } else {
+        return res.status(403).json({ error: 'Admin access required' });
+    }
 }
 
 module.exports = {
     authenticateUser,
     authenticateJWT,
+    isAdmin
 };
