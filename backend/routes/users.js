@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const userController = require("../controllers/userController"); // User-related logic
-const authenticationService = require('../services/authentication'); // JWT auth service
+const authService = require('../services/authentication'); // JWT auth service
+
+// 🔐 Protect all /users routes with JWT
+router.use(authService.authenticateJWT);
 
 //Protected route - List all users
 router.get('/', userController.getUsers);

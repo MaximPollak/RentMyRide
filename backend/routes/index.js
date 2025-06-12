@@ -1,31 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const userController = require("../controllers/userController"); // User-related logic
-const authenticationService = require('../services/authentication'); // JWT auth service
+const authService = require('../services/authentication');
 const userModel = require('../models/userModel'); // Access to users for login matching
 
 // --------------------------------------
 // LOGIN ROUTE
 // --------------------------------------
-router.route('/login')
-    .get((req, res) => {
-        res.render('login'); // Render login form (views/login.ejs)
-    })
-    .post((req, res) => {
-        userModel.getUsers()
-            .then((users) => {
-                authenticationService.authenticateUser(req.body, users, res); // Handles JWT + password match
-            })
-            .catch((err) => {
-                res.sendStatus(500);
-            });
-    });
+router.post('/login', async (req, res) => {
+    try {
+        const users = await userModel.getUsers(); // fetch all users
+        await authService.authenticateUser(req.body, users, res); // check login
+    } catch (err) {
+        console.error('Login route error:', err);
+        res.status(500).json({ error: 'Server error during login' });
+    }
+});
 
 // --------------------------------------
 // REGISTRATION ROUTES
 // --------------------------------------
 router.get('/register', (req, res) => {
-    res.render('registerUser'); // Render registration form (views/registerUser.ejs)
+    res.render('registerUser');
 });
 
 router.post('/register', userController.registerUser);
