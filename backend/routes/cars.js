@@ -15,7 +15,14 @@ router.post('/addCar',
     upload.single('image'),       // 🥉 Now safe to accept file
     carController.addCar          // ✅ Finally: handle logic
 );
-router.put('/:id', authService.authenticateJWT, authService.isAdmin, carController.editCar);
+
+router.put('/:id',
+    authService.authenticateJWT,
+    authService.isAdmin,
+    upload.single('image'), // Optional: user can upload new image
+    carController.editCar
+);
+
 router.delete('/:id', authService.authenticateJWT, authService.isAdmin, carController.deleteCar);
 
 module.exports = router

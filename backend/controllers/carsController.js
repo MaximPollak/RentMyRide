@@ -59,16 +59,23 @@ const addCar = (req, res, next) => {
 //----EDIT CAR-----
 //---------------------
 const editCar = (req, res, next) => {
-    const carId = req.params.id
-    const carData = req.body
+    const carId = req.params.id;
+    // If a new image was uploaded, use it; otherwise keep existing one
+    const updatedData = {
+        ...req.body,
+        image_url: req.file ? `/uploads/${req.file.filename}` : req.body.image_url
+    };
+    // Ensure number fields are parsed (optional but cleaner)
+    updatedData.price_per_day = parseInt(updatedData.price_per_day);
+    updatedData.available = parseInt(updatedData.available);
 
-    carModel.editCar(carId, carData)
+    carModel.editCar(carId, updatedData)
         .then(response => res.status(200).json(response))
         .catch(err => {
-            console.error('Error updating car:', err)
-            res.status(500).json({ error: 'Failed to update car' })
-        })
-}
+            console.error('Error updating car:', err);
+            res.status(500).json({ error: 'Failed to update car' });
+        });
+};
 
 const deleteCar = (req, res, next) => {
     const carId = req.params.id

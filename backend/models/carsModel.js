@@ -70,26 +70,29 @@ const addCar = (carData) => {
 
 const editCar = (id, carData) => {
     const sql = `
-    UPDATE CCL2_cars SET brand = ?, model = ?, category = ?, info = ?, price_per_day = ?, image_url = ?, available = ?
-    WHERE car_id = ?
-  `
+        UPDATE CCL2_cars
+        SET brand = ?, model = ?, category = ?, info = ?, price_per_day = ?, image_url = ?, available = ?
+        WHERE car_id = ?
+    `;
+
     const values = [
         carData.brand,
         carData.model,
         carData.category,
         carData.info,
-        parseInt(carData.price_per_day),
+        carData.price_per_day,
         carData.image_url,
-        parseInt(carData.available)
-    ]
+        carData.available,
+        id
+    ];
 
     return new Promise((resolve, reject) => {
         db.query(sql, values, (err, result) => {
-            if (err) return reject(err)
-            resolve({ message: 'Car added', id: result.insertId });
-        })
-    })
-}
+            if (err) return reject(err);
+            resolve({ message: 'Car updated', id: id });
+        });
+    });
+};
 
 const deleteCar = (id) => {
     const sql = 'DELETE FROM CCL2_cars WHERE car_id = ?'
