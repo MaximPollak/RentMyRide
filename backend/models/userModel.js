@@ -2,7 +2,7 @@ const db = require('../services/database').config; // Database connection
 const bcrypt = require('bcrypt'); // Library for hashing passwords securely
 
 const getUsers = () => {
-    const sql = 'SELECT username, email, created_at, password FROM CCL2_users';
+    const sql = 'SELECT * FROM CCL2_users';
 
     return new Promise((resolve, reject) => {
         db.query(sql, (err, results) => {

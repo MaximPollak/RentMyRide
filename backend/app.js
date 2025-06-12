@@ -12,6 +12,7 @@ app.use(express.json())
 const indexRouter = require('./routes/index')
 const carRoutes = require('./routes/cars')
 const userRoutes = require('./routes/users')
+const bookingRoutes = require('./routes/bookings');
 
 const cors = require('cors')
 app.use(cors())
@@ -19,6 +20,7 @@ app.use(cors())
 app.use('/', indexRouter)
 app.use('/cars', carRoutes)
 app.use('/users', userRoutes)
+app.use('/bookings', bookingRoutes);
 
 // Routes would go here later
 

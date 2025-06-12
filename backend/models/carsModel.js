@@ -1,18 +1,36 @@
 const db = require('../services/database').config
 
-const getAllCars = () => {
-    return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM CCL2_cars'
-        console.log(sql)
-        db.query(sql, (err, results) => {
-            if (err) {
-                reject(err)
-            } else {
-                resolve(results)
-            }
-        })
-    })
-}
+/**
+ * Fetch all cars from the database.
+ * Before returning, it also updates car availability:
+ * - Any car with a booking that ended before today (end_date < CURDATE())
+ *   will be marked as available again (available = 1).
+ *
+ * This ensures that cars automatically become available
+ * again after their booking period ends.
+ *
+ * @returns {Promise<Array>} Resolves with an array of car objects.
+ */
+const getAllCars = async () => {
+    try {
+        // Reset availability for cars whose bookings have ended
+        const updateQuery = `
+            UPDATE CCL2_cars
+            SET available = 1
+            WHERE car_id IN (
+                SELECT car_id FROM CCL2_bookings
+                WHERE end_date < CURDATE()
+            )
+        `;
+        await db.promise().query(updateQuery);
+
+        // Return all cars
+        const [cars] = await db.promise().query('SELECT * FROM CCL2_cars');
+        return cars;
+    } catch (err) {
+        throw err;
+    }
+};
 
 const getCarById = (id) => {
     const sql = 'SELECT * FROM CCL2_cars WHERE car_id = ?'
@@ -85,10 +103,27 @@ const deleteCar = (id) => {
     })
 }
 
+/**
+ * Set a car's availability status.
+ * @param {number} carId
+ * @param {number} available - 1 (available) or 0 (unavailable)
+ * @returns {Promise<object>}
+ */
+const setCarAvailability = (carId, available) => {
+    const sql = 'UPDATE CCL2_cars SET available = ? WHERE car_id = ?';
+    return new Promise((resolve, reject) => {
+        db.query(sql, [available, carId], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
+
 module.exports = {
     getAllCars,
     getCarById,
     addCar,
     editCar,
     deleteCar,
+    setCarAvailability,
 }

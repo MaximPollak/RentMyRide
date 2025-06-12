@@ -21,8 +21,9 @@ async function authenticateUser({ email, password }, users, res) {
 
     // Only continue if user exists and password is valid
     if (user && await bcrypt.compare(password, user.password)) {
+        console.log('Signed JWT payload:', { id: user.user_id, name: user.username });
         const accessToken = jwt.sign(
-            { id: user.user_id || user.id, name: user.username },
+            { id: user.user_id, name: user.username },
             ACCESS_TOKEN_SECRET,
             { expiresIn: '1h' }
         );
@@ -38,6 +39,7 @@ async function authenticateUser({ email, password }, users, res) {
                 email: user.email
             }
         });
+        console.log('JWT created:', accessToken);
     } else {
         // Invalid credentials
         res.status(401).json({ error: 'Username or password incorrect' });
