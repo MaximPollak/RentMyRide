@@ -19,12 +19,6 @@ const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 async function authenticateUser({ email, password }, users, res) {
     const user = users.find((u) => u.email === email); // Look for user with matching email
 
-    // 🪵 Debug log to trace issue
-    console.log('🔍 Input email:', email);
-    console.log('🔍 Input password:', password);
-    console.log('🔍 Found user:', user);
-    console.log('🔒 Stored password:', user?.password);
-
     // Only continue if user exists and password is valid
     if (user && await bcrypt.compare(password, user.password)) {
         const accessToken = jwt.sign(

@@ -30,8 +30,8 @@ router.post('/register', userController.registerUser);
 // LOGOUT
 // --------------------------------------
 router.get('/logout', (req, res) => {
-    res.cookie("accessToken", '', { maxAge: 0 }); // Expire the cookie
-    res.redirect('/');
+    res.clearCookie('accessToken'); // ✅ This removes the cookie
+    res.status(200).json({ message: 'Logged out successfully' });
 });
 
 // --------------------------------------
