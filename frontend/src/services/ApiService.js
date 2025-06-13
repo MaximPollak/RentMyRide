@@ -19,3 +19,32 @@ export async function registerUser(data) {
     if (!res.ok) throw new Error(result.error || 'Registration failed');
     return result;
 }
+
+export async function loginUser(credentials) {
+    const res = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+        credentials: 'include'
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || 'Login failed');
+
+    // Save user info in localStorage
+    localStorage.setItem('user', JSON.stringify(data.user));
+
+    return data;
+}
+
+export async function logoutUser() {
+    const res = await fetch('http://localhost:3000/logout', {
+        method: 'GET',
+        credentials: 'include'
+    });
+
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.error || 'Logout failed');
+    return result;
+}

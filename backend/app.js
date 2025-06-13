@@ -9,7 +9,10 @@ require('dotenv').config();
 const db = require('./services/database.js');
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // your frontend address
+    credentials: true               // allows cookies to be sent
+}));
 app.use(cookieParser());
 
 // Serve uploaded files statically

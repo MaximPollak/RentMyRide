@@ -1,19 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import homepageCar from '../assets/bmw.png';
+import Navbar from './Navbar'; // ✅ Import the new component
 
 export default function Homepage() {
     return (
         <div className="homepage-container">
-            <header className="navbar">
-                <h1 className="logo">RentMyRide</h1>
-                <nav className="nav-links">
-                    <Link to="/cars">Cars</Link>
-                    <Link to="/about">About us</Link>
-                    <Link to="/booking">Booking</Link>
-                    <Link to="/profile">Profile</Link>
-                </nav>
-            </header>
+            <Navbar /> {/* ✅ No need to wrap it in <header> */}
 
             <main className="intro-section">
                 <div className="intro-text">
