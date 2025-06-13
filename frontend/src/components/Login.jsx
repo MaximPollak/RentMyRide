@@ -28,15 +28,28 @@ export default function Login() {
     return (
         <motion.div
             className="homepage-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
             <Navbar />
             <div className="auth-container">
-                <h2 className="auth-title">Log in to your account</h2>
-                <form className="auth-form" onSubmit={handleSubmit}>
+                <motion.h2
+                    className="auth-title"
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.6, ease: 'easeOut' }}
+                >
+                    Log in to your account
+                </motion.h2>
+                <motion.form
+                    className="auth-form"
+                    onSubmit={handleSubmit}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.6, ease: 'easeOut' }}
+                >
                     <label>Email</label>
                     <input
                         name="email"
@@ -58,7 +71,7 @@ export default function Login() {
                     />
 
                     <button type="submit" className="auth-button">Login</button>
-                </form>
+                </motion.form>
 
                 <div className="auth-footer">
                     Don’t have an account?
