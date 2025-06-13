@@ -32,7 +32,7 @@ export default function Navbar() {
 
     return (
         <header className="navbar">
-            <h1 className="logo">RentMyRide</h1>
+            <Link to="/" className="logo">RentMyRide</Link>
             <nav className="nav-links">
                 <Link to="/cars">Cars</Link>
                 <Link to="/about">About us</Link>

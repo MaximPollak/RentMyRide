@@ -33,13 +33,19 @@ HOMEPAGE---------------------------
 }
 
 .logo {
-  font-size: 1.5rem;
+  color: white;
+  font-size: 2rem;
   font-weight: bold;
+  margin: 0.4rem;
+}
+
+.logo:hover {
+  color: white;
 }
 
 .nav-links a,
 .nav-links button {
-  margin-left: 1.5rem;
+  margin-left: 3rem;
   color: #fff;
   background: none;
   border: none;
@@ -48,6 +54,7 @@ HOMEPAGE---------------------------
   text-decoration: none;
   transition: color 0.3s ease;
   padding-left: 0;
+  font-size: 1.4rem;
 }
 
 .nav-links a:hover,
@@ -75,12 +82,13 @@ HOMEPAGE---------------------------
 }
 
 .subtitle {
-  font-size: 1.5rem;
+  font-size: 3rem;
   font-weight: 600;
+  margin: 10px 0px 10px;
 }
 
 .title {
-  font-size: 3.5rem;
+  font-size: 5rem;
   font-weight: bold;
   color: #facc15;
   margin: 0.5rem 0;
@@ -88,7 +96,9 @@ HOMEPAGE---------------------------
 
 .tagline {
   color: #d4d4d4;
-  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.0rem;
+  font-size: 1.5rem;
 }
 
 .book-button {
@@ -103,11 +113,12 @@ HOMEPAGE---------------------------
 
 .book-button:hover {
   background-color: #fbbf24;
+  color: #000000;
 }
 
 .register-info {
   margin-top: 1rem;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: #a1a1aa;
 }
 
@@ -118,7 +129,7 @@ HOMEPAGE---------------------------
 }
 
 .intro-image img {
-  max-width: 400px;
+  max-width: 700px;
   width: 100%;
   height: auto;
 }
@@ -130,7 +141,6 @@ HOMEPAGE---------------------------
   padding: 1rem;
   border-top: 1px solid #3f3f46;
 }
-
 /*-----------------------------------
 REGISTERPAGE-------------------------
 -----------------------------------*/
@@ -208,7 +218,9 @@ REGISTERPAGE-------------------------
   text-decoration: underline;
   margin-left: 0.3rem;
 }
-
+/*-----------------------------------
+ABOUTUSPAGE--------------------------
+-----------------------------------*/
 .about-container {
   background-color: #1c1c1c;
   min-height: 100vh;
@@ -242,14 +254,16 @@ REGISTERPAGE-------------------------
 }
 
 .about-card h3 {
-  font-size: 1.4rem;
-  font-weight: bold;
+  font-size: 1.6rem;
+  font-weight: 700;
   margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .about-card p {
-  font-size: 1.25rem;
-  line-height: 1.7;
+  font-size: 1.15rem;
+  line-height: 1.8;
 }
 
 .footer {

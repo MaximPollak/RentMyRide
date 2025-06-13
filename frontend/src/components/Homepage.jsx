@@ -1,12 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import homepageCar from '../assets/bmw.png';
-import Navbar from './Navbar'; // ✅ Import the new component
+import Navbar from './Navbar';
+import { motion } from 'framer-motion';
 
 export default function Homepage() {
     return (
-        <div className="homepage-container">
-            <Navbar /> {/* ✅ No need to wrap it in <header> */}
+        <motion.div
+            className="homepage-container"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+        >
+            <Navbar />
 
             <main className="intro-section">
                 <div className="intro-text">
@@ -34,6 +41,6 @@ export default function Homepage() {
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
-        </div>
+        </motion.div>
     );
 }

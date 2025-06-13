@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/apiService';
 import Navbar from "./Navbar.jsx";
 import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
 
 export default function Register() {
     const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -28,7 +29,13 @@ export default function Register() {
     };
 
     return (
-        <div className="homepage-container">
+        <motion.div
+            className="homepage-container"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+        >
             <Navbar />
             <div className="auth-container">
                 <h2 className="auth-title">Register yourself</h2>
@@ -52,6 +59,9 @@ export default function Register() {
                     <a href="/login">Log in</a>
                 </div>
             </div>
-        </div>
+            <footer className="footer">
+                all rights reserved: ©MaximPollák 2025
+            </footer>
+        </motion.div>
     );
 }

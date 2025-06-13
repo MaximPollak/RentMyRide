@@ -1,9 +1,16 @@
 import React from 'react';
 import Navbar from './Navbar';
+import { motion } from 'framer-motion';
 
 export default function AboutUs() {
     return (
-        <div className="about-container">
+        <motion.div
+            className="about-container"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+        >
             <Navbar />
             <main className="about-content">
                 <div className="about-card">
@@ -31,6 +38,6 @@ export default function AboutUs() {
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
-        </div>
+        </motion.div>
     );
 }
