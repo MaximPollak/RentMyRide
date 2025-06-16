@@ -8,11 +8,13 @@ import Cars from './components/Cars';
 import CarDetail from "./components/CarDetail";
 import Profile from "./components/Profile";
 import BookingPage from './components/Booking';
+import EditProfile from './components/EditProfile';
 
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AnimatePresence } from 'framer-motion';
+
 
 function AnimatedRoutes() {
     const location = useLocation();
@@ -28,6 +30,7 @@ function AnimatedRoutes() {
                 <Route path="/cars/:id" element={<CarDetail />} />
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/booking" element={<ProtectedRoute><BookingPage /></ProtectedRoute>} />
+                <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
             </Routes>
         </AnimatePresence>
     );

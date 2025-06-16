@@ -54,28 +54,16 @@ export const getCurrentUser = async () => {
     return res.json();
 };
 
-// ✅ Fetch user's bookings
-export const getUserBookings = async () => {
-    const res = await fetch('http://localhost:3000/bookings/mybookings', {
-        method: 'GET',
+export const updateUser = async (id, updatedData) => {
+    const res = await fetch(`http://localhost:3000/users/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         credentials: 'include',
+        body: JSON.stringify(updatedData)
     });
-    if (!res.ok) throw new Error('Failed to fetch bookings');
-    return res.json();
-};
-
-// 🔐 Submit a booking
-export const createBooking = async (data) => {
-    const res = await fetch('http://localhost:3000/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(data)
-    });
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.error || 'Booking failed');
-    }
+    if (!res.ok) throw new Error('Failed to update user');
     return res.json();
 };
 
@@ -105,5 +93,29 @@ export async function getAllCars() {
 export const getCarById = async (id) => {
     const res = await fetch(`http://localhost:3000/cars/${id}`);
     if (!res.ok) throw new Error('Failed to fetch car details');
+    return res.json();
+};
+// ✅ Fetch user's bookings
+export const getUserBookings = async () => {
+    const res = await fetch('http://localhost:3000/bookings/mybookings', {
+        method: 'GET',
+        credentials: 'include',
+    });
+    if (!res.ok) throw new Error('Failed to fetch bookings');
+    return res.json();
+};
+
+// 🔐 Submit a booking
+export const createBooking = async (data) => {
+    const res = await fetch('http://localhost:3000/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    });
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Booking failed');
+    }
     return res.json();
 };

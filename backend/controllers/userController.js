@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const bcrypt = require('bcrypt');
 
 const getUsers = (req, res) => {
     userModel.getUsers()
@@ -29,13 +30,17 @@ const updateUser = async (req, res) => {
     const userId = req.params.id;
     const { username, email, password } = req.body;
 
-    if (!username || !email || !password) {
-        return res.status(400).json({ error: 'All fields are required' });
+    if (!username || !email) {
+        return res.status(400).json({ error: 'Username and email are required' });
     }
-
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const result = await userModel.updateUser(userId, { username, email, password: hashedPassword });
+        let updatedData = { username, email };
+
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            updatedData.password = hashedPassword;
+        }
+        const result = await userModel.updateUser(userId, updatedData);
         res.status(200).json(result);
     } catch (err) {
         console.error('Error updating user:', err);

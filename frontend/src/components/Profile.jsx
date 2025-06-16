@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { getCurrentUser, getUserBookings } from '../services/apiService';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
     const [user, setUser] = useState(null);
@@ -46,6 +47,9 @@ export default function Profile() {
                         <strong>Account created:</strong>{' '}
                         {new Date(user.created_at).toLocaleDateString('de-DE')}
                     </p>
+                    <Link to="/edit-profile" className="edit-profile-link">
+                        Edit your profile
+                    </Link>
                 </div>
 
                 <div className="bookings-section">
