@@ -47,9 +47,10 @@ export async function registerUser(data) {
 export const getCurrentUser = async () => {
     const res = await fetch('http://localhost:3000/users/me', {
         method: 'GET',
-        credentials: 'include',
+        credentials: 'include', // ✅ crucial
     });
-    if (!res.ok) throw new Error('Failed to fetch user');
+
+    if (!res.ok) throw new Error('Not authenticated');
     return res.json();
 };
 

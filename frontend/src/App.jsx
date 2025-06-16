@@ -5,7 +5,9 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import AboutUs from "./components/AboutUs";
 import Cars from './components/Cars';
+import Profile from "./components/Profile";
 
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AnimatePresence } from 'framer-motion';
@@ -21,6 +23,7 @@ function AnimatedRoutes() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/cars" element={<Cars />} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             </Routes>
         </AnimatePresence>
     );

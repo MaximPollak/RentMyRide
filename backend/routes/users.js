@@ -9,7 +9,12 @@ router.use(authService.authenticateJWT);
 //Protected route - List all users
 router.get('/', userController.getUsers);
 
-//view your profile
+// ✅ Route to get current logged-in user
+router.get('/me', (req, res) => {
+    userController.getUser({ ...req, params: { id: req.user.id } }, res);
+});
+
+//for admin-only user management
 router.get('/:id', userController.getUser);
 
 //updating an user

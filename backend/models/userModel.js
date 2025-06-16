@@ -13,7 +13,7 @@ const getUsers = () => {
 };
 
 const getUser = (id) => {
-    const sql = 'SELECT user_id, username, email FROM CCL2_users WHERE user_id = ?';
+    const sql = 'SELECT user_id, username, email, created_at FROM CCL2_users WHERE user_id = ?';
     return new Promise((resolve, reject) => {
         db.query(sql, [id], (err, results) => {
             if (err) return reject(err);

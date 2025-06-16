@@ -19,8 +19,12 @@ const createBooking = ({ user_id, car_id, start_date, end_date, total_price }) =
 
 const getBookingsByUser = (userId) => {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM CCL2_bookings WHERE user_id = ?';
-
+        const sql = `SELECT b.*, 
+                c.brand, c.model, c.category, c.price_per_day, c.image_url
+            FROM CCL2_bookings b
+            JOIN CCL2_cars c ON b.car_id = c.car_id
+            WHERE b.user_id = ?
+        `;
         db.query(sql, [userId], (err, results) => {
             if (err) return reject(err);
             resolve(results);
