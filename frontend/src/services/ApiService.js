@@ -100,3 +100,10 @@ export async function getAllCars() {
     if (!res.ok) throw new Error('Failed to fetch cars');
     return res.json();
 }
+
+// ✅ Fetch a car by its ID
+export const getCarById = async (id) => {
+    const res = await fetch(`http://localhost:3000/cars/${id}`);
+    if (!res.ok) throw new Error('Failed to fetch car details');
+    return res.json();
+};

@@ -69,6 +69,26 @@ html, body, #root {
   border-radius: 4px;
 }
 
+.car-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.back-button {
+  margin-bottom: 1rem;
+  background-color: #2a2a2a;
+  color: #facc15;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.back-button:hover {
+  background-color: #3a3a3a;
+  border-color: #1f1f1f;
+}
+
 /*-----------------------------------
 HOMEPAGE---------------------------
 -----------------------------------*/

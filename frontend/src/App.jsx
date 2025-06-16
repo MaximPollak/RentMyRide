@@ -5,6 +5,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import AboutUs from "./components/AboutUs";
 import Cars from './components/Cars';
+import CarDetail from "./components/CarDetail";
 import Profile from "./components/Profile";
 import BookingPage from './components/Booking';
 
@@ -24,6 +25,7 @@ function AnimatedRoutes() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/cars" element={<Cars />} />
+                <Route path="/cars/:id" element={<CarDetail />} />
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/booking" element={<ProtectedRoute><BookingPage /></ProtectedRoute>} />
             </Routes>
