@@ -34,7 +34,7 @@ export default function Login() {
             transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
             <Navbar />
-            <div className="auth-container">
+            <div className="login-container">
                 <motion.h2
                     className="auth-title"
                     initial={{ opacity: 0, y: 40 }}
