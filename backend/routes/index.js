@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
 // REGISTRATION ROUTES
 // --------------------------------------
 router.get('/register', (req, res) => {
-    res.render('registerUser');
+    res.send('Registration endpoint ready');
 });
 
 router.post('/register', userController.registerUser);
@@ -38,14 +38,13 @@ router.get('/logout', (req, res) => {
 // HOME ROUTES
 // --------------------------------------
 router.get('/', (req, res) => {
-    res.render("index", { title: "Express" });
+    res.send("API is running");
 });
 
 router.post('/', (req, res) => {
     console.log(req.body);
     res.send('received a POST request');
 })
-
 
 // --------------------------------------
 // EXPORT ROUTER

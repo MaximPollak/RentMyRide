@@ -4,6 +4,7 @@ import Homepage from "./components/Homepage";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import AboutUs from "./components/AboutUs";
+import Cars from './components/Cars';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,6 +20,7 @@ function AnimatedRoutes() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/about" element={<AboutUs />} />
+                <Route path="/cars" element={<Cars />} />
             </Routes>
         </AnimatePresence>
     );

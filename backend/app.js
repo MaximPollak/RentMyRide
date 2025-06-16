@@ -34,6 +34,7 @@ const bookingRoutes = require('./routes/bookings');
 app.use('/', indexRouter);
 app.use('/users', userRoutes);
 app.use('/bookings', bookingRoutes);
+app.use('/uploads', express.static('public/uploads'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://127.0.0.1:${port}`);
