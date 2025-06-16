@@ -64,6 +64,32 @@ export const getUserBookings = async () => {
     return res.json();
 };
 
+// 🔐 Submit a booking
+export const createBooking = async (data) => {
+    const res = await fetch('http://localhost:3000/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    });
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Booking failed');
+    }
+    return res.json();
+};
+
+// 📦 Get all available cars
+export const getAvailableCars = async () => {
+    const res = await fetch(`${API_BASE}/cars/available`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch available cars');
+    return res.json();
+};
+
 export async function getAllCars() {
     const res = await fetch(`${API_BASE}/cars`, {
         method: 'GET',

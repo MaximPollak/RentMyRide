@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../services/apiService';
 
 export default function Navbar() {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
-    // On mount, try to load user from localStorage
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
@@ -32,21 +31,21 @@ export default function Navbar() {
 
     return (
         <header className="navbar">
-            <Link to="/" className="logo">RentMyRide</Link>
+            <NavLink to="/" className={({ isActive }) => isActive ? "logo active-glow" : "logo"}>RentMyRide</NavLink>
             <nav className="nav-links">
-                <Link to="/cars">Cars</Link>
-                <Link to="/about">About us</Link>
+                <NavLink to="/cars" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Cars</NavLink>
+                <NavLink to="/about" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>About us</NavLink>
 
                 {user ? (
                     <>
-                        <Link to="/booking">Booking</Link>
-                        <Link to="/profile">Profile</Link>
-                        <button onClick={handleLogout} className="nav-button">Logout</button>
+                        <NavLink to="/booking" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Booking</NavLink>
+                        <NavLink to="/profile" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Profile</NavLink>
+                        <button onClick={handleLogout} className="nav-link logout-button">Logout</button>
                     </>
                 ) : (
                     <>
-                        <Link to="/register">Register</Link>
-                        <Link to="/login">Login</Link>
+                        <NavLink to="/register" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Register</NavLink>
+                        <NavLink to="/login" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Login</NavLink>
                     </>
                 )}
             </nav>

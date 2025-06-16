@@ -121,6 +121,20 @@ const setCarAvailability = (carId, available) => {
     });
 };
 
+
+const getAvailableCars = () => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM CCL2_cars WHERE available = 1';
+        db.query(sql, (err, results) => {
+            if (err) {
+                console.error('Error fetching available cars:', err);
+                return reject(err);
+            }
+            resolve(results);
+        });
+    });
+};
+
 module.exports = {
     getAllCars,
     getCarById,
@@ -128,4 +142,5 @@ module.exports = {
     editCar,
     deleteCar,
     setCarAvailability,
+    getAvailableCars,
 }

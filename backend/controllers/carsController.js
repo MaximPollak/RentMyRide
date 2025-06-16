@@ -88,10 +88,20 @@ const deleteCar = (req, res, next) => {
         })
 }
 
+const getAvailableCars = (req, res) => {
+    carModel.getAvailableCars()
+        .then(results => res.status(200).json(results))
+        .catch(err => {
+            console.error('Error fetching available cars:', err);
+            res.status(500).json({ error: 'Failed to retrieve cars' });
+        });
+};
+
 module.exports = {
     getAllCars,
     getCarById,
     addCar,
     editCar,
     deleteCar,
+    getAvailableCars
 }

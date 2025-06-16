@@ -12,6 +12,63 @@ html, body, #root {
   font-family: 'Barlow', sans-serif;
 }
 
+/* 🔧 Main calendar background */
+.react-datepicker__portal,
+.react-datepicker,
+.dark-datepicker .react-datepicker {
+  background-color: #1f1f1f !important;
+  border: 1px solid #3f3f46;
+  color: #f4f4f5;
+}
+
+/* 🔧 Header (month, arrows) */
+.dark-datepicker .react-datepicker__header {
+  background-color: #2a2a2a !important;
+  border-bottom: 1px solid #3f3f46;
+}
+
+/* 🔧 Month title and arrows */
+.dark-datepicker .react-datepicker__current-month,
+.dark-datepicker .react-datepicker__navigation-icon::before {
+  color: #facc15;
+}
+
+/* 🔧 Day names and days */
+.dark-datepicker .react-datepicker__day-name,
+.dark-datepicker .react-datepicker__day {
+  color: #e5e5e5;
+}
+
+/* 🔧 Selected day — bold yellow bg, black text */
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #facc15 !important;
+  color: #1a1a1a !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+
+/* 🔧 Hovered day — smooth blue with white text */
+.react-datepicker__day:hover {
+  background-color: #3b82f6 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+}
+
+/* 🔧 Today */
+.dark-datepicker .react-datepicker__day--today {
+  border: 1px solid #facc15;
+}
+
+/* 🔧 Input field */
+.dark-datepicker input {
+  background-color: #2a2a2a;
+  color: #f4f4f5;
+  border: 1px solid #3f3f46;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
 /*-----------------------------------
 HOMEPAGE---------------------------
 -----------------------------------*/
@@ -33,10 +90,16 @@ HOMEPAGE---------------------------
 }
 
 .logo {
-  color: white;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: bold;
-  margin: 0.4rem;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.logo.active-glow {
+  color: #facc15;
+  text-shadow: 0 0 10px #facc15, 0 0 20px #facc15;
 }
 
 .logo:hover {
@@ -55,6 +118,12 @@ HOMEPAGE---------------------------
   transition: color 0.3s ease;
   padding-left: 0;
   font-size: 1.4rem;
+}
+
+.nav-link.active {
+  color: #facc15;
+  font-weight: 600;
+  text-decoration: underline;
 }
 
 .nav-links a:hover,

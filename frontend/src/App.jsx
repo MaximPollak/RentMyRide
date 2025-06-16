@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import AboutUs from "./components/AboutUs";
 import Cars from './components/Cars';
 import Profile from "./components/Profile";
+import BookingPage from './components/Booking';
 
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { ToastContainer } from 'react-toastify';
@@ -24,6 +25,7 @@ function AnimatedRoutes() {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/cars" element={<Cars />} />
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                <Route path="/booking" element={<ProtectedRoute><BookingPage /></ProtectedRoute>} />
             </Routes>
         </AnimatePresence>
     );

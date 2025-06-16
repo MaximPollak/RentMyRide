@@ -6,6 +6,9 @@ const authService = require('../services/authentication');
 
 //GET ALL CARS
 router.get('/', carController.getAllCars) // public
+
+router.get('/available', carController.getAvailableCars);
+
 //GET ONE CAR
 router.get('/:id', carController.getCarById)
 
@@ -20,5 +23,6 @@ router.put('/:id', authService.authenticateJWT, authService.isAdmin, upload.sing
 );
 
 router.delete('/:id', authService.authenticateJWT, authService.isAdmin, carController.deleteCar);
+
 
 module.exports = router
