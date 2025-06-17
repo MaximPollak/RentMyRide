@@ -1,5 +1,4 @@
-const carModel = require('../models/carsModel')
-
+const carModel = require('../models/carsModel');
 
 //---------------------
 //----GETTING ALL CARS-----
@@ -97,11 +96,23 @@ const getAvailableCars = (req, res) => {
         });
 };
 
+
+const refreshCarAvailability = async (req, res) => {
+    try {
+        const result = await carModel.refreshAvailability();
+        res.status(200).json(result);
+    } catch (err) {
+        console.error('Error refreshing availability:', err);
+        res.status(500).json({ error: 'Failed to refresh availability' });
+    }
+};
+
 module.exports = {
     getAllCars,
     getCarById,
     addCar,
     editCar,
     deleteCar,
-    getAvailableCars
+    getAvailableCars,
+    refreshCarAvailability,
 }

@@ -37,7 +37,6 @@ const getCarById = (id) => {
 
     return new Promise((resolve, reject) => {
         db.query(sql, [id], (err, results) => {
-            console.log('Looking for car ID:', id)
             if (err) return reject(err)
             if (results.length === 0) return resolve(null)
             resolve(results[0]) // only one car expected
@@ -105,23 +104,6 @@ const deleteCar = (id) => {
     })
 }
 
-/**
- * Set a car's availability status.
- * @param {number} carId
- * @param {number} available - 1 (available) or 0 (unavailable)
- * @returns {Promise<object>}
- */
-const setCarAvailability = (carId, available) => {
-    const sql = 'UPDATE CCL2_cars SET available = ? WHERE car_id = ?';
-    return new Promise((resolve, reject) => {
-        db.query(sql, [available, carId], (err, result) => {
-            if (err) return reject(err);
-            resolve(result);
-        });
-    });
-};
-
-
 const getAvailableCars = () => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM CCL2_cars WHERE available = 1';
@@ -135,12 +117,29 @@ const getAvailableCars = () => {
     });
 };
 
+const refreshAvailability = () => {
+    const sql = `
+        UPDATE CCL2_cars 
+        SET available = 1 
+        WHERE car_id IN (
+            SELECT car_id FROM CCL2_bookings 
+            WHERE end_date < CURDATE()
+        )
+    `;
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, result) => {
+            if (err) return reject(err);
+            resolve({ message: 'Car availability refreshed', result });
+        });
+    });
+};
+
 module.exports = {
     getAllCars,
     getCarById,
     addCar,
     editCar,
     deleteCar,
-    setCarAvailability,
     getAvailableCars,
+    refreshAvailability,
 }

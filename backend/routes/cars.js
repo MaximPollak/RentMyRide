@@ -9,6 +9,8 @@ router.get('/', carController.getAllCars) // public
 
 router.get('/available', carController.getAvailableCars);
 
+router.get('/refresh-availability', carController.refreshCarAvailability);
+
 //GET ONE CAR
 router.get('/:id', carController.getCarById)
 

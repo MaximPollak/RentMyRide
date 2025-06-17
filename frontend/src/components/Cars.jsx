@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
-import { getAllCars } from '../services/apiService';
+import { getAllCars, refreshCarAvailability } from '../services/apiService'; // ✅ Added function
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -8,9 +8,17 @@ export default function Cars() {
     const [cars, setCars] = useState([]);
 
     useEffect(() => {
-        getAllCars()
-            .then(setCars)
-            .catch(err => console.error('Error fetching cars:', err));
+        async function loadCars() {
+            try {
+                await refreshCarAvailability(); // ✅ Update availability before fetching cars
+                console.log('✅ Availability refreshed');
+                const allCars = await getAllCars();
+                setCars(allCars);
+            } catch (err) {
+                console.error('Error fetching cars:', err);
+            }
+        }
+        loadCars();
     }, []);
 
     return (
@@ -23,7 +31,7 @@ export default function Cars() {
         >
             <Navbar />
             <main className="cars-list">
-                <h2 className="cars-title">Browse Available Cars</h2>
+                <h2 className="cars-title">Browse Our Cars</h2>
                 <div className="car-grid">
                     {cars.map(car => (
                         <Link to={`/cars/${car.car_id}`} className="car-card-link" key={car.car_id}>

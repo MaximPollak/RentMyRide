@@ -28,21 +28,35 @@ export default function CarDetail() {
             transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
             <Navbar />
-            <div className="auth-container">
-                <button onClick={() => navigate(-1)} className="back-button">← Back</button>
+            <div className="car-detail-container">
+                <button onClick={() => navigate(-1)} className="car-detail-back-button">← Back</button>
 
-                <div className="booking-card">
+                <div className="car-detail-card">
                     <img
                         src={`http://localhost:3000${car.image_url}`}
                         alt={`${car.brand} ${car.model}`}
-                        className="booking-car-image"
+                        className="car-detail-image"
                     />
-                    <div className="booking-details">
+                    <div className="car-detail-info">
                         <h4>{car.brand} {car.model}</h4>
                         <p><strong>Category:</strong> {car.category}</p>
                         <p><strong>Info:</strong> {car.info}</p>
                         <p><strong>Price per day:</strong> €{car.price_per_day}</p>
-                        <p><strong>Status:</strong> {car.available ? 'Available' : 'Booked'}</p>
+                        <p><strong>Status:</strong> {car.available ? (
+                            <span style={{ color: '#22c55e', fontWeight: 'bold' }}>Available</span>
+                        ) : (
+                            <span style={{ color: '#f87171', fontWeight: 'bold' }}>Currently Booked</span>
+                        )}</p>
+
+                        {car.available ? (
+                            <button
+                                onClick={() => navigate(`/booking?car_id=${car.car_id}`)}
+                                className="auth-button"
+                                style={{ marginTop: '1rem' }}
+                            >
+                                Book this car
+                            </button>
+                        ) : null}
                     </div>
                 </div>
             </div>

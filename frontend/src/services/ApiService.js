@@ -95,6 +95,15 @@ export const getCarById = async (id) => {
     if (!res.ok) throw new Error('Failed to fetch car details');
     return res.json();
 };
+
+export const refreshCarAvailability = async () => {
+    const res = await fetch('http://localhost:3000/cars/refresh-availability', {
+        credentials: 'include',
+    });
+    if (!res.ok) throw new Error('Failed to refresh availability');
+    return res.json();
+};
+
 // ✅ Fetch user's bookings
 export const getUserBookings = async () => {
     const res = await fetch('http://localhost:3000/bookings/mybookings', {
