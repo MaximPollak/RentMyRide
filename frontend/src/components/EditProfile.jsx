@@ -63,7 +63,7 @@ export default function EditProfile() {
                     <input name="email" type="email" value={form.email} onChange={handleChange} required />
 
                     <label>New Password</label>
-                    <input name="password" type="password" value={form.password} onChange={handleChange} required placeholder="Leave blank to keep current password" />
+                    <input name="password" type="password" value={form.password} onChange={handleChange} required placeholder="Write your old/new password" />
 
                     <button type="submit" className="auth-button">Save Changes</button>
                 </form>

@@ -12,61 +12,70 @@ html, body, #root {
   font-family: 'Barlow', sans-serif;
 }
 
-/* 🔧 Main calendar background */
-.react-datepicker__portal,
-.react-datepicker,
-.dark-datepicker .react-datepicker {
+/* 🌑 Wrap your DatePicker with a parent div using className="dark-datepicker" */
+
+/* 📅 Base styling */
+.dark-datepicker .react-datepicker,
+.dark-datepicker .react-datepicker__portal {
   background-color: #1f1f1f !important;
   border: 1px solid #3f3f46;
   color: #f4f4f5;
+  font-family: inherit;
 }
 
-/* 🔧 Header (month, arrows) */
+/* 📅 Header styling (month & arrows) */
 .dark-datepicker .react-datepicker__header {
   background-color: #2a2a2a !important;
   border-bottom: 1px solid #3f3f46;
 }
 
-/* 🔧 Month title and arrows */
-.dark-datepicker .react-datepicker__current-month,
-.dark-datepicker .react-datepicker__navigation-icon::before {
+.dark-datepicker .react-datepicker__current-month {
   color: #facc15;
+  font-weight: 600;
 }
 
-/* 🔧 Day names and days */
+.dark-datepicker .react-datepicker__navigation-icon::before {
+  border-color: #facc15;
+}
+
+/* 📅 Day labels (Mon, Tue, ...) and normal days */
 .dark-datepicker .react-datepicker__day-name,
 .dark-datepicker .react-datepicker__day {
   color: #e5e5e5;
+  transition: background-color 0.2s ease;
 }
 
-/* 🔧 Selected day — bold yellow bg, black text */
-.react-datepicker__day--selected,
-.react-datepicker__day--keyboard-selected {
+/* ✅ Selected day */
+.dark-datepicker .react-datepicker__day--selected,
+.dark-datepicker .react-datepicker__day--keyboard-selected {
   background-color: #facc15 !important;
   color: #1a1a1a !important;
   border-radius: 8px !important;
-  font-weight: 600 !important;
+  font-weight: 600;
 }
 
-/* 🔧 Hovered day — smooth blue with white text */
-.react-datepicker__day:hover {
+/* 🖱️ Hover day */
+.dark-datepicker .react-datepicker__day:hover {
   background-color: #3b82f6 !important;
   color: #ffffff !important;
-  border-radius: 8px !important;
+  border-radius: 8px;
 }
 
-/* 🔧 Today */
+/* 📍 Today */
 .dark-datepicker .react-datepicker__day--today {
   border: 1px solid #facc15;
+  font-weight: 500;
 }
 
-/* 🔧 Input field */
+/* 📝 Input styling */
 .dark-datepicker input {
   background-color: #2a2a2a;
   color: #f4f4f5;
   border: 1px solid #3f3f46;
-  padding: 0.5rem;
-  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 1rem;
 }
 
 .car-card-link {
@@ -107,6 +116,16 @@ HOMEPAGE---------------------------
   align-items: center;
   padding: 1rem 2rem;
   border-bottom: 2px solid #facc15;
+}
+
+/* --- Responsive Navbar --- */
+.navbar-toggle {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #facc15;
+  cursor: pointer;
 }
 
 .logo {
@@ -518,49 +537,43 @@ PROFILE PAGE STYLING
 .booking-section {
   flex: 2;
 }
-
 /*-----------------------------------
-BOOKINGPAGE--------------------------
+PROFILE PAGE – BOOKING SECTION
 -----------------------------------*/
 
-.booking-title {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  color: #facc15;
-  border-bottom: 2px solid #3f3f46;
-  padding-bottom: 0.75rem;
+.booking-section {
+  flex: 2;
+  margin-top: 2rem;
 }
 
 .booking-list {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 2rem;
 }
 
 .booking-card {
   display: flex;
   background-color: #2a2a2a;
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .booking-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
 }
 
 .booking-car-image {
   width: 50%;
-  height: 360px;
   object-fit: cover;
   border-right: 1px solid #3f3f46;
 }
 
 .booking-details {
-  padding: 2.25rem 2.5rem;
+  padding: 2rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -568,20 +581,174 @@ BOOKINGPAGE--------------------------
 }
 
 .booking-details h4 {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   margin-bottom: 0.75rem;
   color: #facc15;
 }
 
 .booking-details p {
   margin: 0.5rem 0;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #e5e5e5;
 }
 
-.no-bookings {
-  font-style: italic;
-  color: #a1a1aa;
+/*-----------------------------------
+CAR DETAIL PAGE STYLES
+-----------------------------------*/
+.car-detail-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #1c1c1e;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  color: #f4f4f5;
+}
+
+.car-detail-back-button {
+  background: none;
+  border: none;
+  color: #facc15;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.car-detail-back-button:hover {
+  color: #fef08a;
+}
+
+.car-detail-card {
+  display: flex;
+  background-color: #2a2a2a;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.car-detail-card:hover {
+  transform: translateY(-4px);
+}
+
+.car-detail-image {
+  width: 50%;
+  height: auto;
+  object-fit: cover;
+  border-right: 1px solid #3f3f46;
+}
+
+.car-detail-info {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.car-detail-info h4 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #facc15;
+}
+
+.car-detail-info p {
   font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: #e5e5e5;
+}
+
+.car-available {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.car-unavailable {
+  color: #f87171;
+  font-weight: bold;
+}
+
+.car-detail-book-button {
   margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #facc15;
+  color: #1c1c1e;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+.car-detail-book-button:hover {
+  background-color: #fbbf24;
+}
+
+/*--------------------
+Mobile Responsive
+--------------------*/
+@media (max-width: 768px) {
+  .car-detail-card {
+    flex-direction: column;
+  }
+
+  .car-detail-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-right: none;
+    border-bottom: 1px solid #3f3f46;
+  }
+
+  .car-detail-info {
+    padding: 1.5rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .car-detail-info h4 {
+    font-size: 1.6rem;
+  }
+
+  .car-detail-info p {
+    font-size: 1rem;
+  }
+
+  .car-detail-book-button {
+    width: 100%;
+  }
+}
+
+/*------------------
+NAVBAR--------------
+------------------*/
+/* Mobile styles */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a,
+  .nav-links button {
+    margin-left: 0;
+    font-size: 1.3rem;
+  }
 }

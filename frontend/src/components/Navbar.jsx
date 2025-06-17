@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { logoutUser } from '../services/apiService';
 
 export default function Navbar() {
     const [user, setUser] = useState(null);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,23 +31,30 @@ export default function Navbar() {
         }
     };
 
+    const isActive = (path) => location.pathname === path;
+
     return (
         <header className="navbar">
-            <NavLink to="/" className={({ isActive }) => isActive ? "logo active-glow" : "logo"}>RentMyRide</NavLink>
-            <nav className="nav-links">
-                <NavLink to="/cars" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Cars</NavLink>
-                <NavLink to="/about" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>About us</NavLink>
+            <Link to="/" className={`logo ${isActive('/') ? 'active-glow' : ''}`}>RentMyRide</Link>
+
+            <button className="navbar-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+                ☰
+            </button>
+
+            <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
+                <Link to="/cars" className={isActive('/cars') ? 'nav-link active' : 'nav-link'}>Cars</Link>
+                <Link to="/about" className={isActive('/about') ? 'nav-link active' : 'nav-link'}>About us</Link>
 
                 {user ? (
                     <>
-                        <NavLink to="/booking" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Booking</NavLink>
-                        <NavLink to="/profile" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Profile</NavLink>
-                        <button onClick={handleLogout} className="nav-link logout-button">Logout</button>
+                        <Link to="/booking" className={isActive('/booking') ? 'nav-link active' : 'nav-link'}>Booking</Link>
+                        <Link to="/profile" className={isActive('/profile') ? 'nav-link active' : 'nav-link'}>Profile</Link>
+                        <button onClick={handleLogout} className="nav-button">Logout</button>
                     </>
                 ) : (
                     <>
-                        <NavLink to="/register" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Register</NavLink>
-                        <NavLink to="/login" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Login</NavLink>
+                        <Link to="/register" className={isActive('/register') ? 'nav-link active' : 'nav-link'}>Register</Link>
+                        <Link to="/login" className={isActive('/login') ? 'nav-link active' : 'nav-link'}>Login</Link>
                     </>
                 )}
             </nav>
