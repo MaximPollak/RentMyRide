@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { logoutUser } from '../services/apiService';
+import { logoutUser, getCurrentUser } from '../services/apiService';
 
 export default function Navbar() {
     const [user, setUser] = useState(null);
@@ -9,14 +9,10 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            try {
-                setUser(JSON.parse(storedUser));
-            } catch {
-                localStorage.removeItem('user');
-            }
-        }
+        // Fetch current user on mount
+        getCurrentUser()
+            .then(setUser)
+            .catch(() => setUser(null));
     }, []);
 
     const handleLogout = async () => {
@@ -49,6 +45,13 @@ export default function Navbar() {
                     <>
                         <Link to="/booking" className={isActive('/booking') ? 'nav-link active' : 'nav-link'}>Booking</Link>
                         <Link to="/profile" className={isActive('/profile') ? 'nav-link active' : 'nav-link'}>Profile</Link>
+
+                        {user.role === 'admin' && (
+                            <Link to="/admin" className={isActive('/admin') ? 'nav-link active' : 'nav-link'}>
+                                Admin
+                            </Link>
+                        )}
+
                         <button onClick={handleLogout} className="nav-button">Logout</button>
                     </>
                 ) : (

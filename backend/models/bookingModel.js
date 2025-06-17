@@ -62,9 +62,29 @@ const deleteBooking = (bookingId) => {
     });
 };
 
+const getAllBookings = () => {
+    const sql = `
+        SELECT b.booking_id, b.user_id, b.car_id, b.start_date, b.end_date, b.total_price,
+               u.username, u.email,
+               c.brand, c.model, c.image_url
+        FROM CCL2_bookings b
+        JOIN CCL2_users u ON b.user_id = u.user_id
+        JOIN CCL2_cars c ON b.car_id = c.car_id
+        ORDER BY b.start_date DESC
+    `;
+
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
+        });
+    });
+};
+
 module.exports = {
     createBooking,
     getBookingsByUser,
     getBookingById,
     deleteBooking,
+    getAllBookings,
 };

@@ -9,6 +9,7 @@ import CarDetail from "./components/CarDetail";
 import Profile from "./components/Profile";
 import BookingPage from './components/Booking';
 import EditProfile from './components/EditProfile';
+import AdminDashboard from './components/AdminDashboard';
 
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { ToastContainer } from 'react-toastify';
@@ -31,6 +32,14 @@ function AnimatedRoutes() {
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/booking" element={<ProtectedRoute><BookingPage /></ProtectedRoute>} />
                 <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+                <Route
+                    path="/admin"
+                    element={
+                        <ProtectedRoute requireAdmin={true}>
+                            <AdminDashboard />
+                        </ProtectedRoute>
+                    }
+                />
             </Routes>
         </AnimatePresence>
     );

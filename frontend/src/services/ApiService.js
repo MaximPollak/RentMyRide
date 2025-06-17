@@ -128,3 +128,60 @@ export const createBooking = async (data) => {
     }
     return res.json();
 };
+
+/*------------------
+ADMIN DASHBOARD-----
+------------------*/
+export const getAllUsers = async () => {
+    const res = await fetch('http://localhost:3000/users', {
+        method: 'GET',
+        credentials: 'include', // includes cookies for authentication
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch users');
+    return res.json();
+};
+
+export const getAllBookings = async () => {
+    const res = await fetch('http://localhost:3000/bookings/admin', {
+        method: 'GET',
+        credentials: 'include'
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch bookings');
+    return res.json();
+};
+
+// services/apiService.js
+export const addCar = async (carData, imageFile) => {
+    const formData = new FormData();
+    for (const key in carData) {
+        formData.append(key, carData[key]);
+    }
+    formData.append('image', imageFile); // key must match multer
+
+    const res = await fetch('http://localhost:3000/cars', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData
+    });
+
+    if (!res.ok) throw new Error('Failed to add car');
+    return res.json();
+};
+
+export const updateCar = async (id, carData) => {
+    const formData = new FormData();
+    Object.keys(carData).forEach(key => {
+        if (carData[key] !== undefined) formData.append(key, carData[key]);
+    });
+
+    const res = await fetch(`http://localhost:3000/cars/${id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        body: formData
+    });
+
+    if (!res.ok) throw new Error('Failed to update car');
+    return res.json();
+};

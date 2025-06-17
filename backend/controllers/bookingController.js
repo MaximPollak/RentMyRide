@@ -105,8 +105,19 @@ const deleteBooking = async (req, res) => {
     }
 };
 
+const getAllBookings = async (req, res) => {
+    try {
+        const bookings = await bookingModel.getAllBookings();
+        res.status(200).json(bookings);
+    } catch (err) {
+        console.error('Error fetching bookings:', err);
+        res.status(500).json({ error: 'Failed to retrieve bookings' });
+    }
+};
+
 module.exports = {
     createBooking,
     getMyBookings,
     deleteBooking,
+    getAllBookings
 };

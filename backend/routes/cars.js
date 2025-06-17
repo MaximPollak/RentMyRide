@@ -21,8 +21,7 @@ router.post('/addCar',
     carController.addCar          // ✅ Finally: handle logic
 );
 
-router.put('/:id', authService.authenticateJWT, authService.isAdmin, upload.single('image'), carController.editCar
-);
+router.put('/:id', authService.authenticateJWT, authService.isAdmin, upload.single('image'), carController.editCar);
 
 router.delete('/:id', authService.authenticateJWT, authService.isAdmin, carController.deleteCar);
 

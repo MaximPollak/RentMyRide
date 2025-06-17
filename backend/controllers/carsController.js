@@ -39,7 +39,8 @@ const addCar = (req, res, next) => {
     // Extract car data and add image_url
     const carData = {
         ...req.body,
-        image_url: imageUrl
+        image_url: imageUrl,
+        available: 1
     };
 
     console.log('🚗 carData to insert:', carData);

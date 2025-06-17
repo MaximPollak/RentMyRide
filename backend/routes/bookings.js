@@ -14,4 +14,15 @@ router.delete('/:id', authService.authenticateJWT, bookingController.deleteBooki
 // GET /bookings/me → get current user's bookings
 router.get('/mybookings', bookingController.getMyBookings);
 
+router.get(
+    '/admin',
+    (req, res, next) => {
+        console.log('📡 /bookings/admin route hit');
+        next(); // pass control to the next middleware
+    },
+    authService.authenticateJWT,
+    authService.isAdmin,
+    bookingController.getAllBookings
+);
+
 module.exports = router;

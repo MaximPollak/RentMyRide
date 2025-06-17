@@ -47,7 +47,7 @@ const getCarById = (id) => {
 const addCar = (carData) => {
     const sql = `
         INSERT INTO CCL2_cars (brand, model, category, info, price_per_day, image_url, available)
-        VALUES (?, ?, ?, ?, ?, ?, ?)`
+        VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
         carData.brand,
