@@ -60,7 +60,6 @@ export default function Navbar() {
                                 Admin
                             </Link>
                         )}
-
                         <button onClick={handleLogout} className="nav-button">Logout</button>
                     </>
                 ) : (
