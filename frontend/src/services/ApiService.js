@@ -47,11 +47,18 @@ export async function registerUser(data) {
 export const getCurrentUser = async () => {
     const res = await fetch('http://localhost:3000/users/me', {
         method: 'GET',
-        credentials: 'include', // ✅ crucial
+        credentials: 'include', // important for sending cookie
     });
 
-    if (!res.ok) throw new Error('Not authenticated');
-    return res.json();
+    if (res.status === 401) {
+        throw new Error('Not authenticated');
+    }
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch user');
+    }
+
+    return res.json(); // returns the user object from backend
 };
 
 export const updateUser = async (id, updatedData) => {

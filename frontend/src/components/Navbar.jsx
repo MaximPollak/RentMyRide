@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { logoutUser, getCurrentUser } from '../services/apiService';
+import { toast } from 'react-toastify';
 
 export default function Navbar() {
     const [user, setUser] = useState(null);
@@ -9,10 +10,18 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch current user on mount
-        getCurrentUser()
-            .then(setUser)
-            .catch(() => setUser(null));
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            try {
+                const parsedUser = JSON.parse(storedUser);
+                setUser(parsedUser); // set user state immediately
+            } catch (err) {
+                console.error('Failed to parse user from localStorage:', err);
+                localStorage.removeItem('user');
+            }
+        } else {
+            setUser(null);
+        }
     }, []);
 
     const handleLogout = async () => {
@@ -20,7 +29,7 @@ export default function Navbar() {
             await logoutUser();
             localStorage.removeItem('user');
             setUser(null);
-            alert('You have been logged out 👋');
+            toast.success('You have been logged out');
             navigate('/');
         } catch (err) {
             console.error('Logout failed:', err.message);

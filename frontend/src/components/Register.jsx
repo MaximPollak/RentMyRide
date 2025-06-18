@@ -21,7 +21,7 @@ export default function Register() {
 
         try {
             await registerUser(form);
-            toast.success('🎉 Registration successful!');
+            toast.success('Registration successful!');
             setTimeout(() => navigate('/login'), 2000);
         } catch (err) {
             toast.error(err.message || 'Registration failed');

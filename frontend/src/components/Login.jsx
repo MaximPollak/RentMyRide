@@ -43,7 +43,7 @@ export default function Login() {
                 >
                     Log in to your account
                 </_motion.h2>
-                <motion.form
+                <_motion.form
                     className="auth-form"
                     onSubmit={handleSubmit}
                     initial={{ opacity: 0, y: 30 }}
@@ -71,7 +71,7 @@ export default function Login() {
                     />
 
                     <button type="submit" className="auth-button">Login</button>
-                </motion.form>
+                </_motion.form>
 
                 <div className="auth-footer">
                     Don’t have an account?

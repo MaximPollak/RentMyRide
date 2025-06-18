@@ -421,7 +421,7 @@ CARSPAGE-----------------------------
 .cars-title {
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem !important;
   color: #facc15;
 }
 
@@ -762,6 +762,9 @@ NAVBAR--------------
   .nav-links button {
     margin-left: 0;
     font-size: 1.3rem;
+  }
+  .nav-button {
+    padding: 0;
   }
 }
 /* =====================

@@ -12,13 +12,14 @@ export default function AboutUs() {
             transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
             <Navbar />
+            <h2 className="cars-title">About RentMyRide</h2>
+
             <_motion.main
                 className="about-content"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6, ease: 'easeOut' }}
             >
-
                 <_motion.div className="about-card">
                     <h3>Why Choose Us?</h3>
                     <p>
@@ -26,6 +27,7 @@ export default function AboutUs() {
                         clear terms, and a simple booking process — no confusing fine print, no last-minute surprises. Just quality service from start to finish.
                     </p>
                 </_motion.div>
+
                 <_motion.div className="about-card">
                     <h3>A Fleet You Can Trust</h3>
                     <p>
@@ -33,6 +35,7 @@ export default function AboutUs() {
                         fully insured, and kept in top condition. From everyday models to stylish upgrades, RentMyRide gives you the keys to quality and comfort.
                     </p>
                 </_motion.div>
+
                 <_motion.div className="about-card">
                     <h3>Fast & Flexible Booking</h3>
                     <p>
@@ -41,6 +44,7 @@ export default function AboutUs() {
                     </p>
                 </_motion.div>
             </_motion.main>
+
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
