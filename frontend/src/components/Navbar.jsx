@@ -43,7 +43,7 @@ export default function Navbar() {
 
                 {user ? (
                     <>
-                        <Link to="/booking" className={isActive('/booking') ? 'nav-link active' : 'nav-link'}>Booking</Link>
+                        <Link to="/booking" className={isActive('/booking') ? 'nav-link active' : 'nav-link'}>Book a car</Link>
                         <Link to="/profile" className={isActive('/profile') ? 'nav-link active' : 'nav-link'}>Profile</Link>
 
                         {user.role === 'admin' && (

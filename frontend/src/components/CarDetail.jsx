@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCarById } from '../services/apiService';
 import Navbar from './Navbar';
-import { motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion';
 
 export default function CarDetail() {
     const { id } = useParams();
@@ -20,7 +20,7 @@ export default function CarDetail() {
     if (!car) return <p>Loading car details...</p>;
 
     return (
-        <motion.div
+        <_motion.div
             className="homepage-container"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -63,6 +63,6 @@ export default function CarDetail() {
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
-        </motion.div>
+        </_motion.div>
     );
 }

@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 import { getCurrentUser, updateUser } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion';
 
 export default function EditProfile() {
     const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -17,7 +17,7 @@ export default function EditProfile() {
                 setForm({ username: user.username, email: user.email, password: '' });
                 setUserId(user.user_id);
             } catch (err) {
-                toast.error('Failed to load user');
+                toast.error('Failed to load user', err);
             }
         }
         fetchUser();
@@ -45,7 +45,7 @@ export default function EditProfile() {
     };
 
     return (
-        <motion.div
+        <_motion.div
             className="homepage-container"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -71,6 +71,6 @@ export default function EditProfile() {
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
-        </motion.div>
+        </_motion.div>
     );
 }

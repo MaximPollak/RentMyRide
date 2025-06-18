@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { getAvailableCars, createBooking } from '../services/apiService';
-import { motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -28,7 +28,7 @@ export default function BookingPage() {
                     setForm(prev => ({ ...prev, car_id: selectedId }));
                 }
             } catch (err) {
-                toast.error('🚫 Failed to load available cars');
+                toast.error('🚫 Failed to load available cars', err);
             } finally {
                 setLoading(false);
             }
@@ -63,7 +63,7 @@ export default function BookingPage() {
     };
 
     return (
-        <motion.div
+        <_motion.div
             className="homepage-container"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -71,8 +71,8 @@ export default function BookingPage() {
             transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
             <Navbar />
-            <div className="auth-container">
-                <h2 className="auth-title">Book a Car</h2>
+            <h2 className="cars-title">Book a Car</h2>
+            <div className="auth-container bookingpage-auth-container">
                 {loading ? (
                     <p>Loading available cars...</p>
                 ) : (
@@ -119,6 +119,6 @@ export default function BookingPage() {
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
-        </motion.div>
+        </_motion.div>
     );
 }

@@ -490,6 +490,10 @@ PROFILE PAGE STYLING
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
+.bookingpage-auth-container {
+  margin-top: 0;
+}
+
 .profile-page {
   margin: 0 38px;
 }
@@ -540,6 +544,14 @@ PROFILE PAGE STYLING
 /*-----------------------------------
 PROFILE PAGE – BOOKING SECTION
 -----------------------------------*/
+.cars-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #facc15;
+  text-align: center; /* centers the text itself */
+  margin: 2rem auto;  /* auto left/right centers the element in block layout */
+  width: 100%;        /* full width to ensure proper alignment */
+}
 
 .booking-section {
   flex: 2;

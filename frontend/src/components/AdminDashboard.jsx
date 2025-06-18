@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
-import { motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion';
 import {
     getAllCars,
     getAllBookings,
@@ -96,7 +96,7 @@ export default function AdminDashboard() {
     if (loading) return <p>Loading admin panel...</p>;
 
     return (
-        <motion.div
+        <_motion.div
             className="homepage-container"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -197,6 +197,6 @@ export default function AdminDashboard() {
                 </div>
             </div>
             <footer className="footer">all rights reserved: ©MaximPollák 2025</footer>
-        </motion.div>
+        </_motion.div>
     );
 }

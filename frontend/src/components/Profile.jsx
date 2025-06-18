@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { getCurrentUser, getUserBookings } from '../services/apiService';
-import { motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 export default function Profile() {
@@ -31,7 +31,7 @@ export default function Profile() {
     if (error) return <p className="auth-error">{error}</p>;
 
     return (
-        <motion.div
+        <_motion.div
             className="homepage-container"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -85,6 +85,6 @@ export default function Profile() {
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
-        </motion.div>
+        </_motion.div>
     );
 }

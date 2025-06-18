@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { getAllCars, refreshCarAvailability } from '../services/apiService'; // ✅ Added function
-import { motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 export default function Cars() {
@@ -22,7 +22,7 @@ export default function Cars() {
     }, []);
 
     return (
-        <motion.div
+        <_motion.div
             className="homepage-container"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -35,7 +35,7 @@ export default function Cars() {
                 <div className="car-grid">
                     {cars.map(car => (
                         <Link to={`/cars/${car.car_id}`} className="car-card-link" key={car.car_id}>
-                            <motion.div
+                            <_motion.div
                                 className="car-card"
                                 whileHover={{ scale: 1.02 }}
                                 transition={{ type: 'spring', stiffness: 200 }}
@@ -47,7 +47,7 @@ export default function Cars() {
                                 <p className="car-status" style={{ color: car.available ? '#22c55e' : '#f87171' }}>
                                     {car.available ? 'Available' : 'Booked'}
                                 </p>
-                            </motion.div>
+                            </_motion.div>
                         </Link>
                     ))}
                 </div>
@@ -55,6 +55,6 @@ export default function Cars() {
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
-        </motion.div>
+        </_motion.div>
     );
 }

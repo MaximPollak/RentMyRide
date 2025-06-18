@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/apiService';
 import { toast } from 'react-toastify';
 import Navbar from "./Navbar.jsx";
-import { motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion';
 
 export default function Login() {
     const [form, setForm] = useState({ email: '', password: '' });
@@ -26,7 +26,7 @@ export default function Login() {
     };
 
     return (
-        <motion.div
+        <_motion.div
             className="homepage-container"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -35,14 +35,14 @@ export default function Login() {
         >
             <Navbar />
             <div className="login-container">
-                <motion.h2
+                <_motion.h2
                     className="auth-title"
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.6, ease: 'easeOut' }}
                 >
                     Log in to your account
-                </motion.h2>
+                </_motion.h2>
                 <motion.form
                     className="auth-form"
                     onSubmit={handleSubmit}
@@ -81,6 +81,6 @@ export default function Login() {
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
-        </motion.div>
+        </_motion.div>
     );
 }

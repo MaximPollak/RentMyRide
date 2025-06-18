@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import homepageCar from '../assets/bmw.png';
 import Navbar from './Navbar';
-import { motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion';
 
 export default function Homepage() {
     return (
-        <motion.div
+        <_motion.div
             className="homepage-container"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -16,7 +16,7 @@ export default function Homepage() {
             <Navbar />
 
             <main className="intro-section">
-                <motion.div
+                <_motion.div
                     className="intro-text"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -36,21 +36,21 @@ export default function Homepage() {
                             Register yourself
                         </Link>
                     </div>
-                </motion.div>
+                </_motion.div>
 
-                <motion.div
+                <_motion.div
                     className="intro-image"
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4, duration: 0.6, ease: 'easeOut' }}
                 >
                     <img src={homepageCar} alt="Homepage car" />
-                </motion.div>
+                </_motion.div>
             </main>
 
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>
-        </motion.div>
+        </_motion.div>
     );
 }
