@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import homepageCar from '../assets/bmw.png';
+//import homepageCar from '../assets/bmw.png';
 import Navbar from './Navbar';
 import { motion as _motion } from 'framer-motion';
 
@@ -44,7 +44,7 @@ export default function Homepage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4, duration: 0.6, ease: 'easeOut' }}
                 >
-                    <img src={homepageCar} alt="Homepage car" />
+
                 </_motion.div>
             </main>
 

@@ -5,9 +5,9 @@ const db = require('../services/database').config;
  */
 const createBooking = ({ user_id, car_id, start_date, end_date, total_price }) => {
     const sql = `
-    INSERT INTO CCL2_bookings (user_id, car_id, start_date, end_date, total_price, status)
-    VALUES (?, ?, ?, ?, ?, 'Pending')
-  `;
+        INSERT INTO CCL2_bookings (user_id, car_id, start_date, end_date, total_price, status)
+        VALUES (?, ?, ?, ?, ?, 'Pending')
+    `;
 
     return new Promise((resolve, reject) => {
         db.query(sql, [user_id, car_id, start_date, end_date, total_price], (err, result) => {
@@ -19,11 +19,11 @@ const createBooking = ({ user_id, car_id, start_date, end_date, total_price }) =
 
 const getBookingsByUser = (userId) => {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT b.*, 
-                c.brand, c.model, c.category, c.price_per_day, c.image_url
-            FROM CCL2_bookings b
-            JOIN CCL2_cars c ON b.car_id = c.car_id
-            WHERE b.user_id = ?
+        const sql = `SELECT b.*,
+                            c.brand, c.model, c.category, c.price_per_day, c.image_url
+                     FROM CCL2_bookings b
+                              JOIN CCL2_cars c ON b.car_id = c.car_id
+                     WHERE b.user_id = ?
         `;
         db.query(sql, [userId], (err, results) => {
             if (err) return reject(err);
@@ -68,8 +68,8 @@ const getAllBookings = () => {
                u.username, u.email,
                c.brand, c.model, c.image_url
         FROM CCL2_bookings b
-        JOIN CCL2_users u ON b.user_id = u.user_id
-        JOIN CCL2_cars c ON b.car_id = c.car_id
+                 JOIN CCL2_users u ON b.user_id = u.user_id
+                 JOIN CCL2_cars c ON b.car_id = c.car_id
         ORDER BY b.start_date DESC
     `;
 

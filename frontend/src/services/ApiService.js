@@ -1,7 +1,8 @@
-const API_BASE = 'http://localhost:3000' // adjust to your backend URL
+//const API_BASE = 'http://localhost:3000/api' // adjust to your backend URL
+export const API_BASE = import.meta.env.VITE_API_BASE;
 
 export async function loginUser(credentials) {
-    const res = await fetch('http://localhost:3000/login', {
+    const res = await fetch(`${API_BASE}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
@@ -19,7 +20,7 @@ export async function loginUser(credentials) {
 }
 
 export async function logoutUser() {
-    const res = await fetch('http://localhost:3000/logout', {
+    const res = await fetch(`${API_BASE}/logout`, {
         method: 'GET',
         credentials: 'include'
     });
@@ -30,7 +31,7 @@ export async function logoutUser() {
 }
 
 export async function registerUser(data) {
-    const res = await fetch('http://localhost:3000/register', {
+    const res = await fetch(`${API_BASE}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -45,7 +46,7 @@ export async function registerUser(data) {
 
 // ✅ Fetch user details
 export const getCurrentUser = async () => {
-    const res = await fetch('http://localhost:3000/users/me', {
+    const res = await fetch(`${API_BASE}/users/me`, {
         method: 'GET',
         credentials: 'include', // important for sending cookie
     });
@@ -62,7 +63,7 @@ export const getCurrentUser = async () => {
 };
 
 export const updateUser = async (id, updatedData) => {
-    const res = await fetch(`http://localhost:3000/users/${id}`, {
+    const res = await fetch(`${API_BASE}/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -98,13 +99,13 @@ export async function getAllCars() {
 
 // ✅ Fetch a car by its ID
 export const getCarById = async (id) => {
-    const res = await fetch(`http://localhost:3000/cars/${id}`);
+    const res = await fetch(`${API_BASE}/cars/${id}`, { credentials: 'include' });
     if (!res.ok) throw new Error('Failed to fetch car details');
     return res.json();
 };
 
 export const refreshCarAvailability = async () => {
-    const res = await fetch('http://localhost:3000/cars/refresh-availability', {
+    const res = await fetch(`${API_BASE}/cars/refresh-availability`, {
         credentials: 'include',
     });
     if (!res.ok) throw new Error('Failed to refresh availability');
@@ -113,7 +114,7 @@ export const refreshCarAvailability = async () => {
 
 // ✅ Fetch user's bookings
 export const getUserBookings = async () => {
-    const res = await fetch('http://localhost:3000/bookings/mybookings', {
+    const res = await fetch(`${API_BASE}/bookings/mybookings`, {
         method: 'GET',
         credentials: 'include',
     });
@@ -123,7 +124,7 @@ export const getUserBookings = async () => {
 
 // 🔐 Submit a booking
 export const createBooking = async (data) => {
-    const res = await fetch('http://localhost:3000/bookings', {
+    const res = await fetch(`${API_BASE}/bookings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -140,7 +141,7 @@ export const createBooking = async (data) => {
 ADMIN DASHBOARD-----
 ------------------*/
 export const getAllUsers = async () => {
-    const res = await fetch('http://localhost:3000/users', {
+    const res = await fetch(`${API_BASE}/users`, {
         method: 'GET',
         credentials: 'include', // includes cookies for authentication
     });
@@ -150,7 +151,7 @@ export const getAllUsers = async () => {
 };
 
 export const getAllBookings = async () => {
-    const res = await fetch('http://localhost:3000/bookings/admin', {
+    const res = await fetch(`${API_BASE}/bookings/admin`, {
         method: 'GET',
         credentials: 'include'
     });
@@ -165,9 +166,9 @@ export const addCar = async (carData, imageFile) => {
     for (const key in carData) {
         formData.append(key, carData[key]);
     }
-    formData.append('image', imageFile); // key must match multer
+    formData.append('image', imageFile); // 🔁 change image_url → image
 
-    const res = await fetch('http://localhost:3000/cars', {
+    const res = await fetch(`${API_BASE}/cars/addCar`, {
         method: 'POST',
         credentials: 'include',
         body: formData
@@ -183,7 +184,7 @@ export const updateCar = async (id, carData) => {
         if (carData[key] !== undefined) formData.append(key, carData[key]);
     });
 
-    const res = await fetch(`http://localhost:3000/cars/${id}`, {
+    const res = await fetch(`${API_BASE}/cars/${id}`, {
         method: 'PUT',
         credentials: 'include',
         body: formData

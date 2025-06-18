@@ -72,7 +72,7 @@ export default function AdminDashboard() {
         formData.append('image', imageFile);
 
         try {
-            const res = await fetch('http://localhost:3000/cars/addCar', {
+            const res = await fetch('https://cc241059-10693.node.fhstp.cc/cars/addCar', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${JSON.parse(localStorage.getItem('user'))?.token || ''}`

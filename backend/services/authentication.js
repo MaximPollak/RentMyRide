@@ -48,19 +48,15 @@ async function authenticateUser({ email, password }, users, res) {
  * Middleware to authenticate protected routes using token in headers.
  */
 function authenticateJWT(req, res, next) {
-    const token = req.cookies['accessToken']; // ✅ Read token from cookie
+    const token = req.cookies['accessToken']; // ✅ read from cookie!
 
-    if (!token) {
-        return res.status(401).json({ error: 'Access token missing' });
-    }
+    if (!token) return res.status(401).json({ error: 'Access token missing' });
 
     jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ error: 'Invalid or expired token' });
-        }
+        if (err) return res.status(403).json({ error: 'Invalid or expired token' });
 
-        req.user = user; // Attach decoded user object to request
-        next(); // ✅ Continue
+        req.user = user; // Attach user from token
+        next();
     });
 }
 

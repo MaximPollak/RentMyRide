@@ -119,10 +119,10 @@ const getAvailableCars = () => {
 
 const refreshAvailability = () => {
     const sql = `
-        UPDATE CCL2_cars 
-        SET available = 1 
+        UPDATE CCL2_cars
+        SET available = 1
         WHERE car_id IN (
-            SELECT car_id FROM CCL2_bookings 
+            SELECT car_id FROM CCL2_bookings
             WHERE end_date < CURDATE()
         )
     `;

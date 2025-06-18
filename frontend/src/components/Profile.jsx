@@ -61,7 +61,7 @@ export default function Profile() {
                             {bookings.map((booking) => (
                                 <div key={booking.booking_id} className="booking-card">
                                     <img
-                                        src={`http://localhost:3000${booking.image_url}`}
+                                        src={`https://cc241059-10693.node.fhstp.cc${booking.image_url}`}
                                         alt={`${booking.brand} ${booking.model}`}
                                         className="booking-car-image"
                                     />

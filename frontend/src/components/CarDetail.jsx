@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getCarById } from '../services/apiService';
+import {getCarById} from '../services/apiService';
 import Navbar from './Navbar';
 import { motion as _motion } from 'framer-motion';
 
@@ -33,7 +33,7 @@ export default function CarDetail() {
 
                 <div className="car-detail-card">
                     <img
-                        src={`http://localhost:3000${car.image_url}`}
+                        src={`https://cc241059-10693.node.fhstp.cc${car.image_url}`}
                         alt={`${car.brand} ${car.model}`}
                         className="car-detail-image"
                     />
