@@ -143,10 +143,8 @@ export default function AdminDashboard() {
                                 <EditCarForm
                                     car={editCar}
                                     onClose={() => setEditCar(null)}
-                                    onSave={(updatedCar) => {
-                                        setCars(prev =>
-                                            prev.map(c => (c.car_id === updatedCar.car_id ? updatedCar : c))
-                                        );
+                                    onSuccess={() => {
+                                        getAllCars().then(setCars); // ✅ Reload cars after update
                                         setEditCar(null);
                                     }}
                                 />

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { updateCar } from '../services/apiService';
+import { toast } from 'react-toastify';
 
 export default function EditCarForm({ car, onClose, onSuccess }) {
     const [form, setForm] = useState({
@@ -27,11 +28,10 @@ export default function EditCarForm({ car, onClose, onSuccess }) {
 
         try {
             await updateCar(car.car_id, formData);
-            alert('✅ Car updated successfully');
-            onSuccess();
+            toast.success('Car updated successfully');
+            onSuccess(); // Refresh or navigate
         } catch (err) {
             console.error('Error updating car:', err);
-            alert('❌ Failed to update car');
         }
     };
 
