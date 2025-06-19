@@ -1,4 +1,7 @@
 const carModel = require('../models/carsModel');
+const fs = require('fs');
+const path = require('path');
+
 
 //---------------------
 //----GETTING ALL CARS-----
@@ -58,23 +61,41 @@ const addCar = (req, res, next) => {
 //---------------------
 //----EDIT CAR-----
 //---------------------
-const editCar = (req, res, next) => {
+const editCar = async (req, res, next) => {
     const carId = req.params.id;
-    // If a new image was uploaded, use it; otherwise keep existing one
-    const updatedData = {
-        ...req.body,
-        image_url: req.file ? `/uploads/${req.file.filename}` : req.body.image_url
-    };
-    // Ensure number fields are parsed (optional but cleaner)
-    updatedData.price_per_day = parseInt(updatedData.price_per_day);
-    updatedData.available = parseInt(updatedData.available);
 
-    carModel.editCar(carId, updatedData)
-        .then(response => res.status(200).json(response))
-        .catch(err => {
-            console.error('Error updating car:', err);
-            res.status(500).json({ error: 'Failed to update car' });
-        });
+    try {
+        // Fetch current car from DB
+        const existingCar = await carModel.getCarById(carId);
+        if (!existingCar) {
+            return res.status(404).json({ error: 'Car not found' });
+        }
+
+        let imageUrl = existingCar.image_url;
+
+        // If a new image is uploaded, update path and remove the old file
+        if (req.file) {
+            imageUrl = `/uploads/${req.file.filename}`;
+
+            const oldImagePath = path.join(__dirname, '..', 'public', existingCar.image_url);
+            fs.unlink(oldImagePath, (err) => {
+                if (err) console.warn('⚠️ Failed to delete old image:', err);
+            });
+        }
+
+        const updatedData = {
+            ...req.body,
+            image_url: imageUrl,
+            price_per_day: parseInt(req.body.price_per_day),
+            available: parseInt(req.body.available)
+        };
+
+        const response = await carModel.editCar(carId, updatedData);
+        res.status(200).json(response);
+    } catch (err) {
+        console.error('Error updating car:', err);
+        res.status(500).json({ error: 'Failed to update car' });
+    }
 };
 
 const deleteCar = (req, res, next) => {
