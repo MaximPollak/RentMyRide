@@ -10,6 +10,7 @@ import {
 import EditCarForm from './EditCarForm';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
+export const API_BASE = import.meta.env.VITE_API_BASE;
 
 export default function AdminDashboard() {
     const [activeTab, setActiveTab] = useState('users');
@@ -72,7 +73,7 @@ export default function AdminDashboard() {
         formData.append('image', imageFile);
 
         try {
-            const res = await fetch('https://cc241059-10693.node.fhstp.cc/cars/addCar', {
+            const res = await fetch(`${API_BASE}/cars/addCar`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${JSON.parse(localStorage.getItem('user'))?.token || ''}`

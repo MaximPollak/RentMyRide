@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import { getCurrentUser, getUserBookings } from '../services/apiService';
 import { motion as _motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+export const API_BASE = import.meta.env.VITE_API_BASE;
 
 export default function Profile() {
     const [user, setUser] = useState(null);
@@ -61,7 +62,7 @@ export default function Profile() {
                             {bookings.map((booking) => (
                                 <div key={booking.booking_id} className="booking-card">
                                     <img
-                                        src={`https://cc241059-10693.node.fhstp.cc${booking.image_url}`}
+                                        src={`${API_BASE}${booking.image_url}`}
                                         alt={`${booking.brand} ${booking.model}`}
                                         className="booking-car-image"
                                     />

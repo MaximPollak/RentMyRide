@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {getCarById} from '../services/apiService';
 import Navbar from './Navbar';
 import { motion as _motion } from 'framer-motion';
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function CarDetail() {
     const { id } = useParams();
@@ -33,7 +34,7 @@ export default function CarDetail() {
 
                 <div className="car-detail-card">
                     <img
-                        src={`https://cc241059-10693.node.fhstp.cc${car.image_url}`}
+                        src={`${BACKEND_URL}${car.image_url}`}
                         alt={`${car.brand} ${car.model}`}
                         className="car-detail-image"
                     />
