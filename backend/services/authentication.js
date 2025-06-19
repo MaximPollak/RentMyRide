@@ -35,7 +35,8 @@ async function authenticateUser({ email, password }, users, res) {
             user: {
                 id: user.user_id || user.id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                role: user.role
             }
         });
     } else {
