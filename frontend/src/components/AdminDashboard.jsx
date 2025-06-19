@@ -5,10 +5,12 @@ import {
     getAllCars,
     getAllBookings,
     getAllUsers,
-    getCurrentUser
+    getCurrentUser,
+    deleteUser
 } from '../services/apiService';
 import EditCarForm from './EditCarForm';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import '../App.css';
 export const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -27,7 +29,7 @@ export default function AdminDashboard() {
         info: ''
     });
     const [imageFile, setImageFile] = useState(null);
-    const [editCar, setEditCar] = useState(null); // Holds the car being edited
+    const [editCar, setEditCar] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -94,6 +96,19 @@ export default function AdminDashboard() {
         }
     };
 
+    const handleDeleteUser = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this user?')) return;
+
+        try {
+            await deleteUser(id);
+            setUsers(prev => prev.filter(u => u.user_id !== id));
+            toast.success('User deleted');
+        } catch (err) {
+            console.error('Delete failed:', err);
+            toast.error('Failed to delete user');
+        }
+    };
+
     if (loading) return <p>Loading admin panel...</p>;
 
     return (
@@ -122,7 +137,9 @@ export default function AdminDashboard() {
                                 <div key={user.user_id} className="admin-user-card">
                                     <p><strong>{user.username}</strong> ({user.email}) - {user.role}</p>
                                     <button>Edit</button>
-                                    <button>Delete</button>
+                                    {user.role !== 'admin' && (
+                                        <button onClick={() => handleDeleteUser(user.user_id)}>Delete</button>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -144,7 +161,7 @@ export default function AdminDashboard() {
                                     car={editCar}
                                     onClose={() => setEditCar(null)}
                                     onSuccess={() => {
-                                        getAllCars().then(setCars); // ✅ Reload cars after update
+                                        getAllCars().then(setCars);
                                         setEditCar(null);
                                     }}
                                 />

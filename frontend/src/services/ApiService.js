@@ -193,3 +193,13 @@ export const updateCar = async (id, carData) => {
     if (!res.ok) throw new Error('Failed to update car');
     return res.json();
 };
+
+export const deleteUser = async (id) => {
+    const res = await fetch(`${API_BASE}/users/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+    });
+
+    if (!res.ok) throw new Error('Failed to delete user');
+    return res.json();
+};
