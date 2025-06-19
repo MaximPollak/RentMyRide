@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 import { getAllCars, refreshCarAvailability} from '../services/apiService'; // ✅ Added function
 import { motion as _motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 export default function Cars() {
     const [cars, setCars] = useState([]);
@@ -41,7 +41,7 @@ export default function Cars() {
                                 whileHover={{ scale: 1.02 }}
                                 transition={{ type: 'spring', stiffness: 200 }}
                             >
-                                <img src={`${BACKEND_URL}${car.image_url}`} alt={`${car.brand} ${car.model}`} className="car-image" />
+                                <img src={`https://cc241059-10693.node.fhstp.cc${car.image_url}`} alt={`${car.brand} ${car.model}`} className="car-image" />
                                 <h3>{car.brand} {car.model}</h3>
                                 <p className="car-category">{car.category}</p>
                                 <p className="car-price">€{car.price_per_day}/day</p>
