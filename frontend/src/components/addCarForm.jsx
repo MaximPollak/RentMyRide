@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { addCar } from '../services/apiService';
 import { toast } from 'react-toastify';
 
+// Component for adding a new car to the system (used in admin dashboard)
 export default function AddCarForm({ onCarAdded }) {
     const [form, setForm] = useState({
         brand: '',
@@ -10,27 +11,35 @@ export default function AddCarForm({ onCarAdded }) {
         price_per_day: '',
         info: '',
     });
-    const [image, setImage] = useState(null);
 
+    const [image, setImage] = useState(null); // Holds uploaded image file
+
+    // Handle input changes for all form fields
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm(prev => ({ ...prev, [name]: value }));
     };
 
+    // Handle file input separately
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
     };
 
+    // Submit form data and image to the API
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!image) return toast.error('Please upload a car image.');
+
+        if (!image) {
+            toast.error('Please upload a car image.');
+            return;
+        }
 
         try {
-            await addCar(form, image);
+            await addCar(form, image); // Call backend to add car
             toast.success('Car added successfully!');
-            setForm({ brand: '', model: '', category: '', price_per_day: '', info: '' });
+            setForm({ brand: '', model: '', category: '', price_per_day: '', info: '' }); // Reset form
             setImage(null);
-            onCarAdded();
+            onCarAdded(); // Notify parent component
         } catch (err) {
             toast.error('Failed to add car.');
             console.error(err);

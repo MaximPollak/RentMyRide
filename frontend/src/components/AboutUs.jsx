@@ -1,25 +1,28 @@
 import React from 'react';
 import Navbar from './Navbar';
-import { motion as _motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion'; // Framer Motion used for page transitions
 
+// AboutUs component: displays static content describing the RentMyRide service
 export default function AboutUs() {
     return (
         <_motion.div
             className="about-container"
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.96 }}       // Initial fade and scale-in effect
+            animate={{ opacity: 1, scale: 1 }}           // Animate to full opacity and scale
+            exit={{ opacity: 0, scale: 0.96 }}           // Exit animation for route transitions
             transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
             <Navbar />
+
             <h2 className="cars-title">About RentMyRide</h2>
 
             <_motion.main
                 className="about-content"
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 30 }}           // Content slides in from below
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6, ease: 'easeOut' }}
             >
+                {/* Section 1: Service philosophy */}
                 <_motion.div className="about-card">
                     <h3>Why Choose Us?</h3>
                     <p>
@@ -28,6 +31,7 @@ export default function AboutUs() {
                     </p>
                 </_motion.div>
 
+                {/* Section 2: Vehicle quality */}
                 <_motion.div className="about-card">
                     <h3>A Fleet You Can Trust</h3>
                     <p>
@@ -36,6 +40,7 @@ export default function AboutUs() {
                     </p>
                 </_motion.div>
 
+                {/* Section 3: Booking convenience */}
                 <_motion.div className="about-card">
                     <h3>Fast & Flexible Booking</h3>
                     <p>

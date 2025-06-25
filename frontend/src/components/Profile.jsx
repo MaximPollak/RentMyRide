@@ -5,30 +5,31 @@ import { motion as _motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 export default function Profile() {
-    const [user, setUser] = useState(null);
-    const [bookings, setBookings] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [user, setUser] = useState(null); // Holds logged-in user info
+    const [bookings, setBookings] = useState([]); // Holds user bookings
+    const [loading, setLoading] = useState(true); // Tracks loading state
+    const [error, setError] = useState(null); // Holds any error message
 
     useEffect(() => {
+        // Load user data and bookings when the component mounts
         const fetchData = async () => {
             try {
-                const userData = await getCurrentUser();
-                const userBookings = await getUserBookings();
+                const userData = await getCurrentUser(); // Fetch current user info
+                const userBookings = await getUserBookings(); // Fetch user's bookings
                 setUser(userData);
                 setBookings(userBookings);
             } catch (err) {
-                setError(err.message || 'Failed to load profile');
+                setError(err.message || 'Failed to load profile'); // Handle error if request fails
             } finally {
-                setLoading(false);
+                setLoading(false); // Stop loading once data is fetched or error occurs
             }
         };
 
         fetchData();
     }, []);
 
-    if (loading) return <p>Loading profile...</p>;
-    if (error) return <p className="auth-error">{error}</p>;
+    if (loading) return <p>Loading profile...</p>; // Show while loading
+    if (error) return <p className="auth-error">{error}</p>; // Show error message
 
     return (
         <_motion.div
@@ -39,7 +40,9 @@ export default function Profile() {
             transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
             <Navbar />
+
             <div className="profile-page">
+                {/* Display user details */}
                 <div className="profile-info">
                     <h2>Welcome, {user.username}!</h2>
                     <p>Email: {user.email}</p>
@@ -52,38 +55,43 @@ export default function Profile() {
                     </Link>
                 </div>
 
+                {/* Display user's bookings */}
                 <div className="bookings-section">
                     <h3 style={{ marginBottom: '1rem', color: '#facc15' }}>Your Bookings</h3>
+
                     {bookings.length === 0 ? (
-                        <p>You have no bookings yet.</p>
+                        <p>You have no bookings yet.</p> // Show if no bookings
                     ) : (
                         <div className="booking-list">
                             {bookings
-                                .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
+                                .sort((a, b) => new Date(b.start_date) - new Date(a.start_date)) // Sort bookings by date descending
                                 .map((booking) => (
-                                <div key={booking.booking_id} className="booking-card">
-                                    <img
-                                        src={`http://localhost:3000${booking.image_url}`}
-                                        alt={`${booking.brand} ${booking.model}`}
-                                        className="booking-car-image"
-                                    />
-                                    <div className="booking-details">
-                                        <h4>{booking.brand} {booking.model}</h4>
-                                        <p><strong>Category:</strong> {booking.category}</p>
-                                        <p>
-                                            <strong>Rental:</strong>{' '}
-                                            {new Date(booking.start_date).toLocaleDateString('de-DE')} →{' '}
-                                            {new Date(booking.end_date).toLocaleDateString('de-DE')}
-                                        </p>
-                                        <p><strong>Price per day:</strong> €{booking.price_per_day}</p>
-                                        <p><strong>Total:</strong> €{booking.total_price}</p>
+                                    <div key={booking.booking_id} className="booking-card">
+                                        {/* Car image */}
+                                        <img
+                                            src={`http://localhost:3000${booking.image_url}`}
+                                            alt={`${booking.brand} ${booking.model}`}
+                                            className="booking-car-image"
+                                        />
+                                        {/* Booking info */}
+                                        <div className="booking-details">
+                                            <h4>{booking.brand} {booking.model}</h4>
+                                            <p><strong>Category:</strong> {booking.category}</p>
+                                            <p>
+                                                <strong>Rental:</strong>{' '}
+                                                {new Date(booking.start_date).toLocaleDateString('de-DE')} →{' '}
+                                                {new Date(booking.end_date).toLocaleDateString('de-DE')}
+                                            </p>
+                                            <p><strong>Price per day:</strong> €{booking.price_per_day}</p>
+                                            <p><strong>Total:</strong> €{booking.total_price}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                         </div>
                     )}
                 </div>
             </div>
+
             <footer className="footer">
                 all rights reserved: ©MaximPollák 2025
             </footer>

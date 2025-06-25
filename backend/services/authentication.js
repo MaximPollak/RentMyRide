@@ -1,33 +1,29 @@
-const jwt = require('jsonwebtoken'); // Library to create and verify JWT tokens
-const bcrypt = require('bcrypt');    // Library to securely compare hashed passwords
+const jwt = require('jsonwebtoken'); // Used to sign and verify JWT tokens
+const bcrypt = require('bcrypt');    // Used to hash and compare passwords securely
 require('dotenv').config();
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 /**
- * Authenticate a user based on email and password.
- * If valid, creates a JWT token and sends it as JSON.
+ * Authenticate a user by comparing email and password.
+ * If valid, generate a JWT and send it as an httpOnly cookie and in the JSON response.
  *
- * @param {Object} credentials - { email, password }
- * @param {Array} users - List of users from DB
+ * @param {Object} credentials - Contains email and password
+ * @param {Array} users - List of users from the database
  * @param {Object} res - Express response object
  */
-/**
- * Authenticate a user based on email and password.
- * Creates JWT if login succeeds and stores it in a cookie.
- */
 async function authenticateUser({ email, password }, users, res) {
-    const user = users.find((u) => u.email === email); // Look for user with matching email
+    const user = users.find((u) => u.email === email); // Find user by email
 
-    // Only continue if user exists and password is valid
     if (user && await bcrypt.compare(password, user.password)) {
+        // Password matches, create JWT token
         const accessToken = jwt.sign(
             { id: user.user_id, name: user.username, role: user.role },
             ACCESS_TOKEN_SECRET,
             { expiresIn: '1h' }
         );
 
-        // Store token in cookie
+        // Send token as an httpOnly cookie and include user info in response
         res.cookie('accessToken', accessToken, { httpOnly: true });
         res.status(200).json({
             message: 'Login successful',
@@ -40,35 +36,44 @@ async function authenticateUser({ email, password }, users, res) {
             }
         });
     } else {
-        // Invalid credentials
+        // User not found or password incorrect
         res.status(401).json({ error: 'Username or password incorrect' });
     }
 }
 
 /**
- * Middleware to authenticate protected routes using token in headers.
+ * Middleware to verify JWT token from cookies.
+ * Protects routes by allowing only authenticated requests through.
  */
 function authenticateJWT(req, res, next) {
-    const token = req.cookies['accessToken']; // ✅ read from cookie!
+    const token = req.cookies['accessToken']; // Read token from cookie
 
-    if (!token) return res.status(401).json({ error: 'Access token missing' });
+    if (!token) {
+        return res.status(401).json({ error: 'Access token missing' });
+    }
 
     jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.status(403).json({ error: 'Invalid or expired token' });
+        if (err) {
+            return res.status(403).json({ error: 'Invalid or expired token' });
+        }
 
-        req.user = user; // Attach user from token
-        next();
+        req.user = user; // Attach user payload from token to request
+        next(); // Continue to route
     });
 }
 
+/**
+ * Middleware to allow access only to admin users.
+ */
 function isAdmin(req, res, next) {
     if (req.user && req.user.role === 'admin') {
-        return next(); // ✅ Proceed
+        return next(); // User is admin, allow access
     } else {
         return res.status(403).json({ error: 'Admin access required' });
     }
 }
 
+// Export authentication functions
 module.exports = {
     authenticateUser,
     authenticateJWT,

@@ -1,21 +1,26 @@
-const bookingModel = require('../models/bookingModel');
-const db = require('../services/database').config;
-const carModel = require('../models/carsModel');
+const bookingModel = require('../models/bookingModel'); // Booking DB operations
+const db = require('../services/database').config; // DB connection
+const carModel = require('../models/carsModel'); // Car DB operations
 
 /**
- * Controller to handle new bookings
+ * Create a new booking:
+ * - Validates inputs
+ * - Checks if car exists and is available
+ * - Calculates duration and total price
+ * - Saves the booking to the DB
+ * - Marks the car as unavailable
  */
 const createBooking = async (req, res) => {
-    const userId = req.user.id; // From JWT token
+    const userId = req.user.id; // Extract user ID from JWT
     const { car_id, start_date, end_date } = req.body;
 
-    // Validate required fields
+    // Validate that all required fields are present
     if (!car_id || !start_date || !end_date) {
         return res.status(400).json({ error: 'Missing booking data' });
     }
 
     try {
-        // 1. Check car availability + get price
+        // Step 1: Check if the car exists and is available
         const carQuery = 'SELECT price_per_day, available FROM CCL2_cars WHERE car_id = ?';
         const [carResult] = await db.promise().query(carQuery, [car_id]);
 
@@ -29,11 +34,11 @@ const createBooking = async (req, res) => {
             return res.status(400).json({ error: 'Car is not available for booking' });
         }
 
-        // 2. Calculate number of days
+        // Step 2: Calculate number of booking days
         const start = new Date(start_date);
         const end = new Date(end_date);
         const timeDiff = end - start;
-        const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert ms to days
 
         if (days <= 0) {
             return res.status(400).json({ error: 'End date must be after start date' });
@@ -41,7 +46,7 @@ const createBooking = async (req, res) => {
 
         const totalPrice = price_per_day * days;
 
-        // 3. Save booking
+        // Step 3: Save booking to DB
         const result = await bookingModel.createBooking({
             user_id: userId,
             car_id,
@@ -50,52 +55,56 @@ const createBooking = async (req, res) => {
             total_price: totalPrice
         });
 
-        // 4. Mark car as unavailable
+        // Step 4: Set car as unavailable after booking
         const updateAvailabilityQuery = 'UPDATE CCL2_cars SET available = 0 WHERE car_id = ?';
         await db.promise().query(updateAvailabilityQuery, [car_id]);
 
-        res.status(201).json(result);
+        res.status(201).json(result); // Respond with booking info
     } catch (err) {
         console.error('Booking creation failed:', err);
         res.status(500).json({ error: 'Booking failed' });
     }
 };
 
+/**
+ * Get all bookings made by the logged-in user
+ */
 const getMyBookings = async (req, res) => {
     try {
-        const userId = req.user.id; // 🔐 from JWT
+        const userId = req.user.id; // Extract user ID from JWT
 
         const bookings = await bookingModel.getBookingsByUser(userId);
 
-        res.status(200).json(bookings);
+        res.status(200).json(bookings); // Return user's bookings
     } catch (err) {
         console.error('Error fetching user bookings:', err);
         res.status(500).json({ error: 'Could not retrieve bookings' });
     }
 };
 
-
 /**
- * Cancel a booking by ID.
- * Only the user who owns the booking can cancel it.
+ * Cancel a booking:
+ * - Only allowed by the booking's owner
+ * - Deletes the booking
+ * - Sets the car as available again
  */
 const deleteBooking = async (req, res) => {
-    const bookingId = req.params.id;
-    const userId = req.user.id;
+    const bookingId = req.params.id; // Booking to delete
+    const userId = req.user.id; // Authenticated user
 
     try {
         const booking = await bookingModel.getBookingById(bookingId);
 
-        // Booking not found or doesn't belong to user
+        // Block unauthorized deletion
         if (!booking || booking.user_id !== userId) {
             return res.status(403).json({ error: 'Unauthorized or booking not found' });
         }
 
-        // Delete booking
+        // Delete the booking
         await bookingModel.deleteBooking(bookingId);
 
-        // Set car availability back to 1
-        await carModel.setCarAvailability(booking.car_id, 1);
+        // Mark the car as available again
+        await carModel.setCarAvailability(booking.car_id, 1); // 1 = available
         console.log('Resetting availability for car ID:', booking.car_id);
 
         res.status(200).json({ message: 'Booking cancelled', bookingId });
@@ -105,9 +114,12 @@ const deleteBooking = async (req, res) => {
     }
 };
 
+/**
+ * Admin route to get all bookings in the system
+ */
 const getAllBookings = async (req, res) => {
     try {
-        const bookings = await bookingModel.getAllBookings();
+        const bookings = await bookingModel.getAllBookings(); // Includes car + user info
         res.status(200).json(bookings);
     } catch (err) {
         console.error('Error fetching bookings:', err);
@@ -115,6 +127,7 @@ const getAllBookings = async (req, res) => {
     }
 };
 
+// Export controller functions
 module.exports = {
     createBooking,
     getMyBookings,

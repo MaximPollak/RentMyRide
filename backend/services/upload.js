@@ -1,23 +1,28 @@
 const multer = require('multer');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid'); // Used to generate unique file names
 const path = require('path');
 const fs = require('fs');
 
-// Set up destination and filename for uploaded images
+// Configure Multer to store uploaded images on disk
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const dir = path.join(__dirname, '../public/uploads');
+
+        // Create the upload directory if it does not exist
         if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true }); // Create directory if it doesn't exist
+            fs.mkdirSync(dir, { recursive: true });
         }
-        cb(null, dir);
+
+        cb(null, dir); // Set destination folder
     },
     filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname); // Keep the original file extension
-        cb(null, uuidv4() + ext); // Generate unique filename
+        const ext = path.extname(file.originalname); // Extract original file extension
+        const uniqueName = uuidv4() + ext; // Generate a unique filename
+        cb(null, uniqueName);
     },
 });
 
+// Initialize and export Multer upload middleware
 const upload = multer({ storage });
 
 module.exports = upload;

@@ -1,26 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const userController = require("../controllers/userController"); // User-related logic
-const authService = require('../services/authentication'); // JWT auth service
+const userController = require("../controllers/userController"); // Handles user-related operations
+const authService = require('../services/authentication'); // JWT authentication middleware
 
-// 🔐 Protect all /users routes with JWT
+// Apply JWT authentication to all routes in this file
 router.use(authService.authenticateJWT);
 
-//Protected route - List all users
+// GET /users → Admin-only: Retrieve all users
 router.get('/', userController.getUsers);
 
-// ✅ Route to get current logged-in user
+// GET /users/me → Get data of the currently logged-in user
 router.get('/me', (req, res) => {
+    // Call the getUser controller with the current user's ID from the JWT token
     userController.getUser({ ...req, params: { id: req.user.id } }, res);
 });
 
-//for admin-only user management
+// GET /users/:id → Admin-only: Retrieve a user by ID
 router.get('/:id', userController.getUser);
 
-//updating an user
+// PUT /users/:id → Update a user's information (can include password)
 router.put('/:id', userController.updateUser);
 
-//deleting an user
-router.delete('/:id', userController.deleteUser)
+// DELETE /users/:id → Delete a user by ID
+router.delete('/:id', userController.deleteUser);
 
+// Export all user-related routes
 module.exports = router;

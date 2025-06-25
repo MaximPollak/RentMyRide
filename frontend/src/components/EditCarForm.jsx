@@ -3,6 +3,7 @@ import { updateCar } from '../services/apiService';
 import { toast } from 'react-toastify';
 
 export default function EditCarForm({ car, onClose, onSuccess }) {
+    // Initialize form state with existing car details
     const [form, setForm] = useState({
         brand: car.brand,
         model: car.model,
@@ -11,25 +12,30 @@ export default function EditCarForm({ car, onClose, onSuccess }) {
         info: car.info || '',
         available: car.available
     });
-    const [imageFile, setImageFile] = useState(null);
 
+    const [imageFile, setImageFile] = useState(null); // Holds new image file if selected
+
+    // Handle changes in input fields and update form state
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    // Store the new uploaded image in state
     const handleImageChange = (e) => {
         setImageFile(e.target.files[0]);
     };
 
+    // Submit updated car info to backend
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const formData = { ...form };
-        if (imageFile) formData.image = imageFile;
+        if (imageFile) formData.image = imageFile; // Attach image only if updated
 
         try {
-            await updateCar(car.car_id, formData);
-            toast.success('Car updated successfully');
-            onSuccess(); // Refresh or navigate
+            await updateCar(car.car_id, formData); // Call API to update car
+            toast.success('Car updated successfully'); // Notify user
+            onSuccess(); // Trigger refresh or parent callback
         } catch (err) {
             console.error('Error updating car:', err);
         }
@@ -40,30 +46,44 @@ export default function EditCarForm({ car, onClose, onSuccess }) {
             <form onSubmit={handleSubmit} className="edit-car-form">
                 <h3>Edit Car</h3>
 
+                {/* Brand input */}
                 <label>Brand</label>
                 <input name="brand" value={form.brand} onChange={handleChange} required />
 
+                {/* Model input */}
                 <label>Model</label>
                 <input name="model" value={form.model} onChange={handleChange} required />
 
+                {/* Category input */}
                 <label>Category</label>
                 <input name="category" value={form.category} onChange={handleChange} required />
 
+                {/* Price per day input */}
                 <label>Price per day</label>
-                <input name="price_per_day" type="number" value={form.price_per_day} onChange={handleChange} required />
+                <input
+                    name="price_per_day"
+                    type="number"
+                    value={form.price_per_day}
+                    onChange={handleChange}
+                    required
+                />
 
+                {/* Info textarea */}
                 <label>Info</label>
                 <textarea name="info" value={form.info} onChange={handleChange} />
 
+                {/* Status dropdown (availability) */}
                 <label>Status</label>
                 <select name="available" value={form.available} onChange={handleChange}>
                     <option value={1}>Available</option>
                     <option value={0}>Booked</option>
                 </select>
 
+                {/* Image upload */}
                 <label>Change Image</label>
                 <input type="file" accept="image/*" onChange={handleImageChange} />
 
+                {/* Submit and cancel buttons */}
                 <button type="submit">Save Changes</button>
                 <button type="button" onClick={onClose} style={{ marginLeft: '1rem' }}>Cancel</button>
             </form>

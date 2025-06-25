@@ -1,6 +1,6 @@
-const API_BASE = 'http://localhost:3000' // adjust to your backend URL
-//export const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE = 'http://localhost:3000'; // Base URL for backend API
 
+// User login: sends credentials, receives token and user info
 export async function loginUser(credentials) {
     const res = await fetch(`${API_BASE}/login`, {
         method: 'POST',
@@ -10,15 +10,13 @@ export async function loginUser(credentials) {
     });
 
     const data = await res.json();
-
     if (!res.ok) throw new Error(data.error || 'Login failed');
 
-    // Save user info in localStorage
-    localStorage.setItem('user', JSON.stringify(data.user));
-
+    localStorage.setItem('user', JSON.stringify(data.user)); // Save user locally
     return data;
 }
 
+// User logout: clears session by calling logout endpoint
 export async function logoutUser() {
     const res = await fetch(`${API_BASE}/logout`, {
         method: 'GET',
@@ -30,6 +28,7 @@ export async function logoutUser() {
     return result;
 }
 
+// User registration: creates new user account
 export async function registerUser(data) {
     const res = await fetch(`${API_BASE}/register`, {
         method: 'POST',
@@ -38,30 +37,23 @@ export async function registerUser(data) {
     });
 
     const result = await res.json();
-    console.log('📦 Response from backend:', result); // ✅ LOG HERE
-
     if (!res.ok) throw new Error(result.error || 'Registration failed');
     return result;
 }
 
-// ✅ Fetch user details
+// Get current authenticated user from the server
 export const getCurrentUser = async () => {
     const res = await fetch(`${API_BASE}/users/me`, {
         method: 'GET',
-        credentials: 'include', // important for sending cookie
+        credentials: 'include'
     });
 
-    if (res.status === 401) {
-        throw new Error('Not authenticated');
-    }
-
-    if (!res.ok) {
-        throw new Error('Failed to fetch user');
-    }
-
-    return res.json(); // returns the user object from backend
+    if (res.status === 401) throw new Error('Not authenticated');
+    if (!res.ok) throw new Error('Failed to fetch user');
+    return res.json();
 };
 
+// Update a user's profile by ID
 export const updateUser = async (id, updatedData) => {
     const res = await fetch(`${API_BASE}/${id}`, {
         method: 'PUT',
@@ -71,11 +63,12 @@ export const updateUser = async (id, updatedData) => {
         credentials: 'include',
         body: JSON.stringify(updatedData)
     });
+
     if (!res.ok) throw new Error('Failed to update user');
     return res.json();
 };
 
-// 📦 Get all available cars
+// Get list of cars marked as available
 export const getAvailableCars = async () => {
     const res = await fetch(`${API_BASE}/cars/available`, {
         method: 'GET',
@@ -86,43 +79,47 @@ export const getAvailableCars = async () => {
     return res.json();
 };
 
+// Get all cars from the backend
 export async function getAllCars() {
     const res = await fetch(`${API_BASE}/cars`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include' // only if needed for cookies/JWT
+        credentials: 'include'
     });
 
     if (!res.ok) throw new Error('Failed to fetch cars');
     return res.json();
 }
 
-// ✅ Fetch a car by its ID
+// Get a single car by its ID
 export const getCarById = async (id) => {
     const res = await fetch(`${API_BASE}/cars/${id}`, { credentials: 'include' });
     if (!res.ok) throw new Error('Failed to fetch car details');
     return res.json();
 };
 
+// Refresh availability of all cars based on expired bookings
 export const refreshCarAvailability = async () => {
     const res = await fetch(`${API_BASE}/cars/refresh-availability`, {
-        credentials: 'include',
+        credentials: 'include'
     });
+
     if (!res.ok) throw new Error('Failed to refresh availability');
     return res.json();
 };
 
-// ✅ Fetch user's bookings
+// Get bookings for the currently logged-in user
 export const getUserBookings = async () => {
     const res = await fetch(`${API_BASE}/bookings/mybookings`, {
         method: 'GET',
-        credentials: 'include',
+        credentials: 'include'
     });
+
     if (!res.ok) throw new Error('Failed to fetch bookings');
     return res.json();
 };
 
-// 🔐 Submit a booking
+// Create a new booking (requires authentication)
 export const createBooking = async (data) => {
     const res = await fetch(`${API_BASE}/bookings`, {
         method: 'POST',
@@ -130,26 +127,27 @@ export const createBooking = async (data) => {
         credentials: 'include',
         body: JSON.stringify(data)
     });
+
     if (!res.ok) {
         const error = await res.json();
         throw new Error(error.error || 'Booking failed');
     }
+
     return res.json();
 };
 
-/*------------------
-ADMIN DASHBOARD-----
-------------------*/
+// Admin: Get all users
 export const getAllUsers = async () => {
     const res = await fetch(`${API_BASE}/users`, {
         method: 'GET',
-        credentials: 'include', // includes cookies for authentication
+        credentials: 'include'
     });
 
     if (!res.ok) throw new Error('Failed to fetch users');
     return res.json();
 };
 
+// Admin: Get all bookings across all users
 export const getAllBookings = async () => {
     const res = await fetch(`${API_BASE}/bookings/admin`, {
         method: 'GET',
@@ -160,13 +158,13 @@ export const getAllBookings = async () => {
     return res.json();
 };
 
-// services/apiService.js
+// Admin: Add a new car with image file upload
 export const addCar = async (carData, imageFile) => {
     const formData = new FormData();
     for (const key in carData) {
         formData.append(key, carData[key]);
     }
-    formData.append('image', imageFile); // 🔁 change image_url → image
+    formData.append('image', imageFile); // Attach image as file
 
     const res = await fetch(`${API_BASE}/cars/addCar`, {
         method: 'POST',
@@ -178,10 +176,13 @@ export const addCar = async (carData, imageFile) => {
     return res.json();
 };
 
+// Admin: Update an existing car by ID, optionally with new image
 export const updateCar = async (id, carData) => {
     const formData = new FormData();
     Object.keys(carData).forEach(key => {
-        if (carData[key] !== undefined) formData.append(key, carData[key]);
+        if (carData[key] !== undefined) {
+            formData.append(key, carData[key]);
+        }
     });
 
     const res = await fetch(`${API_BASE}/cars/${id}`, {
@@ -194,10 +195,11 @@ export const updateCar = async (id, carData) => {
     return res.json();
 };
 
+// Admin: Delete a user by ID
 export const deleteUser = async (id) => {
     const res = await fetch(`${API_BASE}/users/${id}`, {
         method: 'DELETE',
-        credentials: 'include',
+        credentials: 'include'
     });
 
     if (!res.ok) throw new Error('Failed to delete user');
