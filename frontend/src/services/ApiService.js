@@ -1,5 +1,5 @@
-//const API_BASE = 'http://localhost:3000/api' // adjust to your backend URL
-export const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE = 'http://localhost:3000' // adjust to your backend URL
+//export const API_BASE = import.meta.env.VITE_API_BASE;
 
 export async function loginUser(credentials) {
     const res = await fetch(`${API_BASE}/login`, {

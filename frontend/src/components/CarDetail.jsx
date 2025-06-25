@@ -33,7 +33,7 @@ export default function CarDetail() {
 
                 <div className="car-detail-card">
                     <img
-                        src={`https://cc241059-10693.node.fhstp.cc${car.image_url}`}
+                        src={`http://localhost:3000${car.image_url}`}
                         alt={`${car.brand} ${car.model}`}
                         className="car-detail-image"
                     />

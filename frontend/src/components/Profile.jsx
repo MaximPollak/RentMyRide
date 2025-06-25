@@ -58,10 +58,12 @@ export default function Profile() {
                         <p>You have no bookings yet.</p>
                     ) : (
                         <div className="booking-list">
-                            {bookings.map((booking) => (
+                            {bookings
+                                .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
+                                .map((booking) => (
                                 <div key={booking.booking_id} className="booking-card">
                                     <img
-                                        src={`https://cc241059-10693.node.fhstp.cc${booking.image_url}`}
+                                        src={`http://localhost:3000${booking.image_url}`}
                                         alt={`${booking.brand} ${booking.model}`}
                                         className="booking-car-image"
                                     />
