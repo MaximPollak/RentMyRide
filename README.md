@@ -69,5 +69,13 @@ npm install
 npm run dev
 ```
 
+### Accessibility
+1. 100/100 points on Lighthouse accessibility testing
+2. Images have alternative text - Perceivable.
+3. All buttons have descriptive value
+4. Website able to be navigated through just with the keyboard
+5. Website is robust - valid HTML
+6. Language of the website set to english - UTF 8
+
 ## Created by Maxim Pollák
 ### For the SS2025 Creative Code Lab 2 final project.
