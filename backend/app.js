@@ -11,7 +11,7 @@ const db = require('./services/database.js');
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5173', // your frontend address
+    origin: 'http://localhost:5173',
     credentials: true               // allows cookies to be sent
 }));
 
