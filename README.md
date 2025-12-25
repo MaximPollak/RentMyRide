@@ -54,7 +54,7 @@ Please refer to the following files for complete project details:
 ---
 
 ## Local Setup
-
+> Note: Backend currently runs without a database. Full database integration will be restored in future updates.
 Basic startup steps:
 
 ### Backend
